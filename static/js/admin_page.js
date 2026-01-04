@@ -299,9 +299,9 @@ async function loadUserProfile() {
     });
     if (res.ok) {
       const user = await res.json();
-      const welcomeEl = document.querySelector('.header-title h2');
-      if (welcomeEl) {
-        welcomeEl.textContent = `Welcome Back, ${user.name}`;
+      const navUserEl = document.getElementById('nav-user-name');
+      if (navUserEl) {
+        navUserEl.textContent = user.name || 'Admin';
       }
     } else {
       window.handleAuthError(res);
@@ -321,9 +321,9 @@ async function loadDashboardStats() {
       const stats = await res.json();
 
       // Update Greeting
-      const welcomeTitle = document.querySelector('.welcome-title');
-      if (welcomeTitle) {
-        welcomeTitle.textContent = `Welcome back, ${stats.user_name}`;
+      const welcomeUserName = document.getElementById('welcome-user-name');
+      if (welcomeUserName) {
+        welcomeUserName.textContent = stats.user_name || 'Admin';
       }
 
       // Update Active Tasks
