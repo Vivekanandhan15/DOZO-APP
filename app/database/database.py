@@ -1,22 +1,36 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from pathlib import Path
-from dotenv import load_dotenv
 import os
 
-env_path = Path(__file__).resolve().parent.parent.parent / ".env"
-load_dotenv(dotenv_path=env_path)
+# Load .env ONLY for local development
+if os.getenv("ENV") != "production":
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+
 if not DATABASE_URL:
-    raise ValueError("DATABASE_URL not found in .env file")
+    raise RuntimeError(
+        "DATABASE_URL is not set.\n"
+        "• For local: add it to .env\n"
+        "• For Render: add it in Environment Variables"
+    )
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True
+)
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
 
 Base = declarative_base()
-
 
 def get_db():
     db = SessionLocal()
