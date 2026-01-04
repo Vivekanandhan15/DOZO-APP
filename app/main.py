@@ -30,11 +30,16 @@ from app.routers.teachers import router as teachers_router
 # Swagger OAuth
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
-app = FastAPI(title="DOZO",
+app = FastAPI(
+    title="DOZO",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
     swagger_ui_init_oauth={
         "usePkceWithAuthorizationCodeGrant": True,
     }
 )
+
 
 # ❗ Protect DB creation in production
 if os.getenv("ENV") != "production":
@@ -62,6 +67,12 @@ from app.routers import student_dashboard
 app.include_router(student_dashboard.router)
 
 app.include_router(reports_router)
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
 
 # Static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
