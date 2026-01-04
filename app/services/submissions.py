@@ -1,0 +1,75 @@
+from datetime import datetime
+from sqlalchemy.orm import Session
+from app.models.submissions import Submissions
+
+def submit_assignment(db, student_id, data):
+    s = Submissions(
+        assignment_id=data.assignment_id,
+        student_id=student_id,
+        file_url=data.file_url,
+        submitted_at=datetime.utcnow()
+    )
+    db.add(s)
+    db.commit()
+    db.refresh(s)
+    return s
+
+def grade_submission(db, submission_id, data):
+    submission = db.query(Submissions).filter(Submissions.submission_id == submission_id).first()
+    if submission:
+        submission.grade = data.grade
+        submission.feedback = data.feedback
+        db.commit()
+        db.refresh(submission)
+    return submission
+
+from app.models.assignments import Assignments
+from app.models.users import Users
+
+def get_student_submissions(db, student_id):
+    # For student view, maybe they also want title? 
+    # Let's keep it simple or upgrade this too if needed. 
+    # For now, focus on Admin requirement.
+    return db.query(Submissions).filter(Submissions.student_id == student_id).all()
+
+from app.models.students import Students
+from app.models.batches import Batches
+from datetime import timedelta
+
+def get_teacher_submissions(db, teacher_id):
+    results = db.query(Submissions, Assignments.title, Users.name, Batches.name)\
+        .join(Assignments, Submissions.assignment_id == Assignments.assignment_id)\
+        .join(Batches, Assignments.batch_id == Batches.batch_id)\
+        .join(Students, Submissions.student_id == Students.student_id)\
+        .join(Users, Students.user_id == Users.user_id)\
+        .filter(Assignments.teacher_id == teacher_id)\
+        .all()
+    
+    out = []
+    for sub, title, name, batch_name in results:
+        sub.assignment_title = title
+        sub.student_name = name
+        sub.batch_name = batch_name
+        # Convert UTC to IST (+5:30) for display
+        sub.submitted_at = sub.submitted_at + timedelta(hours=5, minutes=30)
+        out.append(sub)
+    return out
+
+def get_all_submissions(db):
+    results = db.query(Submissions, Assignments.title, Users.name, Batches.name)\
+        .join(Assignments, Submissions.assignment_id == Assignments.assignment_id)\
+        .join(Batches, Assignments.batch_id == Batches.batch_id)\
+        .join(Students, Submissions.student_id == Students.student_id)\
+        .join(Users, Students.user_id == Users.user_id)\
+        .all()
+    
+    out = []
+    for sub, title, name, batch_name in results:
+        sub.assignment_title = title
+        sub.student_name = name
+        sub.batch_name = batch_name
+        # Convert UTC to IST (+5:30) for display
+        sub.submitted_at = sub.submitted_at + timedelta(hours=5, minutes=30)
+        out.append(sub)
+        
+    return out

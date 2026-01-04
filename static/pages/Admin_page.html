@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/layout.css">
+  <link rel="stylesheet" href="/static/css/admin.css"> <!-- Specific dashboard styles -->
+  <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+  <title>Admin Dashboard - DOZO</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="/static/assets/logo.png" alt="DOZO Logo">
+    </div>
+    <div class="nav-center">
+      <h2>Admin Dashboard</h2>
+    </div>
+    <div class="nav-right">
+      <div class="search-box">
+        <i class="fa fa-search"></i>
+        <input type="text" placeholder="Search...">
+      </div>
+      <div class="user-profile">
+        <span class="welcome-title" style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+        <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+      </div>
+    </div>
+  </nav>
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">MAIN MENU</h3>
+      <a href="/admin" class="menu-item active"><i class="fa fa-chart-line"></i> Dashboard</a>
+      <a href="/admin/tasks" class="menu-item"><i class="fa fa-plus"></i> Create Task</a>
+      <a href="/admin/task-management" class="menu-item"><i class="fa fa-tasks"></i> Manage Tasks</a>
+      <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task Review</a>
+      <a href="/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+      <a href="/admin/students" class="menu-item"><i class="fa fa-users"></i> Students</a>
+      <a href="/admin/teachers" class="menu-item"><i class="fa fa-chalkboard-teacher"></i> Teachers</a>
+      <a href="/admin/staff-management" class="menu-item"><i class="fa fa-user-shield"></i> Staff Management</a>
+      <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batches</a>
+    </div>
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">TOOLS</h3>
+      <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+      <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i> Announcements</a>
+      <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
+        Approval</a>
+      <a href="/admin/reports" class="menu-item"><i class="fa fa-file-pdf"></i> Reports</a>
+      <a href="/admin/change-password" class="menu-item"><i class="fa fa-key"></i> Change Password</a>
+    </div>
+  </aside>
+
+  <div class="main-wrapper">
+    <section class="dashboard">
+      <div class="welcome-section">
+        <div>
+          <h1 class="welcome-title">Welcome back, ANISHA FATHIMA </h1>
+          <p class="welcome-subtitle">Here's what's happening with your students today</p>
+        </div>
+        <div class="welcome-buttons">
+          <button class="btn-outline"><i class="fa fa-calendar-check"></i> Mark Attendance</button>
+        </div>
+      </div>
+
+      <div class="stats-section">
+        <div class="stat-card" data-stat="active-tasks">
+          <div class="stat-icon blue"><i class="fa fa-list"></i></div>
+          <h2 class="stat-value" id="stat-active-tasks">0</h2>
+          <p class="stat-label">Active Tasks</p>
+          <p class="stat-change positive" id="stat-tasks-change">Loading...</p>
+        </div>
+
+        <div class="stat-card" data-stat="attendance-rate">
+          <div class="stat-icon green"><i class="fa fa-user-check"></i></div>
+          <h2 class="stat-value" id="stat-attendance-rate">0%</h2>
+          <p class="stat-label">Attendance Rate</p>
+          <p class="stat-change positive" id="stat-attendance-change">Loading...</p>
+        </div>
+
+        <div class="stat-card" data-stat="avg-performance">
+          <div class="stat-icon purple"><i class="fa fa-chart-line"></i></div>
+          <h2 class="stat-value" id="stat-avg-performance">0%</h2>
+          <p class="stat-label">Avg. Performance</p>
+          <p class="stat-change" id="stat-performance-change">Loading...</p>
+        </div>
+
+        <div class="stat-card" data-stat="pending-reviews">
+          <div class="stat-icon orange"><i class="fa fa-clock"></i></div>
+          <h2 class="stat-value" id="stat-pending-reviews">0</h2>
+          <p class="stat-label">Pending Reviews</p>
+          <p class="stat-change" id="stat-reviews-change">Loading...</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="schedule-section">
+      <div class="schedule-left">
+        <div class="schedule-header">
+          <h2>Today's Schedule</h2>
+          <a href="/admin/todo" class="view-all">View All</a>
+        </div>
+        <div class="schedule-list">
+          <div class="schedule-item">
+            <div class="schedule-info">
+              <div class="icon blue"><i class="fa fa-laptop"></i></div>
+              <div>
+                <h3>Web Development - Batch A</h3>
+                <p>Room 101 • 32 students</p>
+              </div>
+            </div>
+            <div class="schedule-time">
+              <h4>9:00 - 11:00 AM</h4>
+              <p class="status in-progress">In Progress</p>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-info">
+              <div class="icon green"><i class="fa fa-code"></i></div>
+              <div>
+                <h3>JavaScript Fundamentals - Batch B</h3>
+                <p>Room 203 • 28 students</p>
+              </div>
+            </div>
+            <div class="schedule-time">
+              <h4>2:00 - 4:00 PM</h4>
+              <p class="status upcoming">Upcoming</p>
+            </div>
+          </div>
+
+          <div class="schedule-item">
+            <div class="schedule-info">
+              <div class="icon purple"><i class="fa fa-users"></i></div>
+              <div>
+                <h3>Mentorship Session - Advanced</h3>
+                <p>Online • 15 students</p>
+              </div>
+            </div>
+            <div class="schedule-time">
+              <h4>5:00 - 6:00 PM</h4>
+              <p class="status scheduled">Scheduled</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="schedule-right">
+        <h2>Quick Actions</h2>
+        <button class="action-btn primary"><i class="fa fa-plus"></i> Create New Task</button>
+        <button class="action-btn"><i class="fa fa-calendar-check"></i> Mark Attendance</button>
+        <button class="action-btn"><i class="fa fa-bullhorn"></i> Post Announcement</button>
+        <button class="action-btn"><i class="fa fa-file-export"></i> Generate Report</button>
+      </div>
+    </section>
+
+    <section class="task-management-section" id="Tasks">
+      <div class="task-header">
+        <h2>Task Management</h2>
+        <div class="task-actions">
+        </div>
+      </div>
+
+      <div class="task-stats">
+        <div class="task-card">
+          <div class="task-icon blue"><i class="fa fa-list"></i></div>
+          <div>
+            <h3>Total Tasks</h3>
+            <h1 id="task-total">0</h1>
+            <p>Active assignments</p>
+          </div>
+        </div>
+
+        <div class="task-card">
+          <div class="task-icon orange"><i class="fa fa-clock"></i></div>
+          <div>
+            <h3>Pending Review</h3>
+            <h1 class="orange-text" id="task-pending">0</h1>
+            <p>Need attention</p>
+          </div>
+        </div>
+
+        <div class="task-card">
+          <div class="task-icon green"><i class="fa fa-check-circle"></i></div>
+          <div>
+            <h3>Completed</h3>
+            <h1 class="green-text" id="task-completed">0</h1>
+            <p>This month</p>
+          </div>
+        </div>
+
+        <div class="task-card">
+          <div class="task-icon red"><i class="fa fa-exclamation-triangle"></i></div>
+          <div>
+            <h3>Overdue</h3>
+            <h1 class="red-text" id="task-overdue">0</h1>
+            <p>Require action</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="task-board-container">
+      <div class="task-board-header">
+        <h2>Recent Tasks</h2>
+        <a href="/admin/task-management" class="view-all">View All</a>
+      </div>
+      <table class="task-table">
+        <thead>
+          <tr>
+            <th>Task Name</th>
+            <th>Batch</th>
+            <th>Due Date</th>
+            <th>Submissions</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="recent-tasks-tbody">
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 40px; color: #888;">
+              Loading tasks...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="attendance-overview-container">
+      <div class="attendance-header">
+        <h2>Attendance Management</h2>
+        <div class="attendance-controls">
+          <select id="attendanceDaySelector">
+            <option>Today</option>
+            <option>Yesterday</option>
+            <option>This Week</option>
+          </select>
+          <a href="/attendance/mark" class="attendance-mark-btn" style="text-decoration: none; color: white;">
+            <i class="fas fa-check-square"></i> Mark Attendance
+          </a>
+        </div>
+      </div>
+      <div class="attendance-summary-section">
+        <div class="summary-card present-summary">
+          <div class="summary-icon green-bg"><i class="fas fa-user-check"></i></div>
+          <div class="summary-details">
+            <h3>Present Today</h3>
+            <p id="att-present-text">Loading...</p>
+          </div>
+          <div class="summary-stats">
+            <h2 id="att-rate">--%</h2>
+            <p>Overall Rate</p>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" id="att-progress-bar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="summary-card absent-summary">
+          <div class="summary-icon red-bg"><i class="fas fa-times"></i></div>
+          <div class="summary-details">
+            <h3>Absent Today</h3>
+            <p id="att-absent-details">Loading...</p>
+          </div>
+          <div class="summary-stats">
+            <h2 id="att-absent-count">--</h2>
+            <p>Students</p>
+          </div>
+        </div>
+        <div class="summary-card leave-summary">
+          <div class="summary-icon yellow-bg"><i class="fas fa-clock"></i></div>
+          <div class="summary-details">
+            <h3>Leave Requests</h3>
+            <p>Awaiting approval</p>
+          </div>
+          <div class="summary-stats">
+            <h2 id="att-pending-count">--</h2>
+            <p>Pending</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="batch-leave-container">
+
+      <div class="batch-section">
+        <div class="section-header"
+          style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 class="batch-section-title" style="margin: 0;">Batch-wise Attendance</h2>
+          <a href="/admin/batches" style="color: #64748b; font-size: 0.9em; text-decoration: none;">View All</a>
+        </div>
+        <div class="batch-list" id="att-batch-list">
+          <p style="text-align: center; padding: 20px; color: #888;">Loading batches...</p>
+        </div>
+      </div>
+
+      <div class="leave-section">
+        <div class="section-header"
+          style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 class="leave-section-title" style="margin: 0;">Leave Requests</h2>
+          <a href="/admin/leave-approval" style="color: #64748b; font-size: 0.9em; text-decoration: none;">View All</a>
+        </div>
+        <div id="att-leave-list">
+          <p style="text-align: center; padding: 20px; color: #888;">Loading requests...</p>
+        </div>
+      </div>
+    </section>
+    <section class="communication-header">
+      <h2 class="comm-title">Communication Hub</h2>
+      <button class="comm-btn">
+        <span class="comm-icon"><i class="fas fa-bullhorn"></i></span>
+        New Announcement
+      </button>
+    </section>
+    <section class="recent-announcements">
+      <div class="announcements-header">
+        <h2>Recent Announcements</h2>
+        <a href="/admin/announcements" class="view-all">View All</a>
+      </div>
+      <div class="announcement-card blue-border">
+        <div class="announcement-content">
+          <div class="announcement-header">
+            <h3>Assignment Deadline Extension</h3>
+            <span class="time">2 hours ago</span>
+          </div>
+          <p>The deadline for React Component Design assignment has been extended to December 18th due to technical
+            difficulties.</p>
+          <div class="announcement-meta">
+            <span><i class="fas fa-users"></i> Batch A, B</span>
+            <span><i class="fas fa-eye"></i> 45 views</span>
+          </div>
+        </div>
+      </div>
+      <div class="announcement-card green-border">
+        <div class="announcement-content">
+          <div class="announcement-header">
+            <h3>Guest Lecture Tomorrow</h3>
+            <span class="time">1 day ago</span>
+          </div>
+          <p>Industry expert ANISHA FATHIMA will be conducting a special session on "Modern Web Architecture" tomorrow
+            at 3 PM.</p>
+          <div class="announcement-meta">
+            <span><i class="fas fa-users"></i> All Batches</span>
+            <span><i class="fas fa-eye"></i> 67 views</span>
+          </div>
+        </div>
+      </div>
+      <div class="announcement-card yellow-border">
+        <div class="announcement-content">
+          <div class="announcement-header">
+            <h3>Holiday Schedule Update</h3>
+            <span class="time">3 days ago</span>
+          </div>
+          <p>Classes will be suspended from December 23rd to January 2nd for the winter holidays. Make sure to complete
+            pending assignments.</p>
+          <div class="announcement-meta">
+            <span><i class="fas fa-users"></i> All Students</span>
+            <span><i class="fas fa-eye"></i> 89 views</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col brand-col">
+          <div class="logo-area">
+            <img src="/static/assets/logo.png" alt="DOZO Logo" class="logo">
+            <div>
+              <div class="brand-name">DOZO</div>
+              <div class="tagline">Student Portal</div>
+            </div>
+          </div>
+          <p class="description">
+            Empowering students with comprehensive learning management and progress tracking tools.
+          </p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="col-title">Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Tasks</a></li>
+            <li><a href="#">Attendance</a></li>
+            <li><a href="#">Progress Reports</a></li>
+            <li><a href="#">Communication</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="col-title">Support</h3>
+          <ul class="footer-links">
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact Support</a></li>
+            <li><a href="#">User Guide</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">System Status</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="col-title">Account</h3>
+          <ul class="footer-links">
+            <li><a href="/admin/profile">Profile Settings</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Academic Calendar</a></li>
+            <li><a href="#" onclick="logout(); return false;" class="logout-link" style="color: red;">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="footer-bottom">
+        <p class="copyright">&copy; 2024 DOZO Student Portal. All rights reserved.</p>
+        <div class="version-info">
+          <span class="version">Version 2.1.0</span>
+          <span class="last-login">Last login: Nov 23, 2024 at 9:15 AM</span>
+        </div>
+      </div>
+    </footer>
+  </div> <!-- End main-wrapper -->
+  <script src="/static/js/auth.js"></script>
+  <script src="/static/js/admin_page.js"></script>
+</body>
+
+</html>

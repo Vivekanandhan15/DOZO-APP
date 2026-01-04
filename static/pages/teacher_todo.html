@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Todo List | DOZO</title>
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/todo.css"> <!-- Reusing todo styles -->
+    <link rel="stylesheet" href="/static/css/admin.css"> <!-- Ensure consistency -->
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>My Todo List</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span class="welcome-title" style="font-size: 0.9rem; font-weight: 600;">Teacher</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/teacher" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/teacher/students" class="menu-item"><i class="fa fa-users"></i> My Students</a>
+            <a href="/teacher/batches" class="menu-item"><i class="fa fa-layer-group"></i> My Batches</a>
+            <a href="/teacher/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/teacher/announcements" class="menu-item"><i class="fa fa-bullhorn"></i> Announcements</a>
+            <a href="/teacher/tasks" class="menu-item"><i class="fa fa-tasks"></i> Manage Tasks</a>
+            <a href="/teacher/leaves" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave Requests</a>
+            <a href="/teacher/todo" class="menu-item active"><i class="fa fa-list-ul"></i> My Todo</a>
+            <a href="/teacher/change-password" class="menu-item"><i class="fa fa-key"></i> Change Password</a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout(); return false;" class="menu-item logout"><i class="fas fa-sign-out-alt"></i>
+                Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="content-header">
+            <div>
+                <h1>My Todo List</h1>
+                <p>Manage your personal priorities and tasks</p>
+            </div>
+        </div>
+        <!-- Add Todo Form -->
+        <div class="card" style="margin-bottom:20px; padding:20px;">
+            <h3>Add New Task</h3>
+            <form id="addTodoForm" style="margin-top:15px;">
+                <div style="margin-bottom:15px;">
+                    <input type="text" id="todoTitle" placeholder="Task Title" required
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:4px;">
+                </div>
+                <div style="display:flex; gap:15px;">
+                    <select id="todoPriority" style="padding:10px; border:1px solid #ddd; border-radius:4px;">
+                        <option value="Low">Low Priority</option>
+                        <option value="Medium" selected>Medium Priority</option>
+                        <option value="High">High Priority</option>
+                    </select>
+                    <input type="date" id="todoDueDate" style="padding:10px; border:1px solid #ddd; border-radius:4px;">
+                    <button type="submit" class="btn-primary"
+                        style="padding:10px 20px; border:none; border-radius:4px; background:var(--primary-color); color:white; cursor:pointer;"><i
+                            class="fas fa-plus"></i> Add Task</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Todo List -->
+        <div class="card" style="padding:20px;">
+            <div class="filter-tabs" style="margin-bottom:20px; display:flex; gap:10px;">
+                <button class="tab active" data-filter="all" style="padding:8px 16px; cursor:pointer;">All</button>
+                <button class="tab" data-filter="Pending" style="padding:8px 16px; cursor:pointer;">Pending</button>
+                <button class="tab" data-filter="Completed" style="padding:8px 16px; cursor:pointer;">Completed</button>
+            </div>
+
+            <div id="todoList" class="todo-items">
+                <!-- Items will be injected here -->
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/todo.js"></script>
+</body>
+
+</html>

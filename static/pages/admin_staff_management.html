@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Management | DOZO</title>
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <link rel="stylesheet" href="/static/css/admin_staff_management.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left"><img src="/static/assets/logo.png" alt="DOZO"></div>
+        <div class="nav-center">
+            <h2>Staff Management</h2>
+        </div>
+        <div class="nav-right">
+            <span style="font-weight: 600;">Admin</span>
+            <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/admin/staff-management" class="menu-item active"><i class="fa fa-user-shield"></i> Staff
+                Management</a>
+            <a href="/admin/teachers" class="menu-item"><i class="fa fa-chalkboard-teacher"></i> Teachers</a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout(); return false;" class="menu-item logout"><i class="fas fa-sign-out-alt"></i>
+                Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="tabs" style="display: flex; gap: 20px; margin-bottom: 25px;">
+            <button class="tab-button active" data-tab="attendance-tab">Attendance Marking</button>
+            <button class="tab-button" data-tab="leaves-tab">Staff Leave Requests</button>
+        </div>
+
+        <!-- Attendance Tab -->
+        <div id="attendance-tab" class="tab-content active">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>Mark Staff Attendance</h3>
+                    <input type="date" id="attendance-date"
+                        style="padding: 8px; border-radius: 6px; border: 1px solid #ddd;">
+                </div>
+                <table class="task-table">
+                    <thead>
+                        <tr>
+                            <th>Teacher Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="staff-list">
+                        <tr>
+                            <td colspan="4" style="text-align:center; padding: 20px; color: #888;">Select a date to load
+                                staff list...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Leaves Tab -->
+        <div id="leaves-tab" class="tab-content">
+            <div class="card">
+                <h3>Pending Leave Requests</h3>
+                <div id="pending-leaves-list" style="margin-top: 15px;">
+                    <p style="color: #888; text-align: center; padding: 20px;">No pending staff leaves.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/admin_staff_management.js"></script>
+</body>
+
+</html>

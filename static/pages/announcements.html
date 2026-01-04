@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements - DOZO</title>
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/todo.css"> <!-- Reusing some shared styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .announcement-card {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #667eea;
+            position: relative;
+        }
+
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .announcement-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .announcement-date {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .announcement-body {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            right: 30px;
+            bottom: 30px;
+            font-size: 17px;
+        }
+
+        #toast.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>Announcements</h2>
+        </div>
+        <div class="nav-right">
+            <div class="search-box">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="user-profile">
+                <span style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/admin/tasks" class="menu-item"><i class="fa fa-tasks"></i> Tasks</a>
+            <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task
+                Review</a>
+            <a href="/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+            <a href="/admin/students" class="menu-item"><i class="fa fa-users"></i> Students</a>
+            <a href="/admin/teachers" class="menu-item"><i class="fa fa-chalkboard-teacher"></i> Teachers</a>
+            <a href="/admin/staff-management" class="menu-item"><i class="fa fa-user-shield"></i> Staff Management</a>
+            <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batches</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+            <a href="/admin/announcements" class="menu-item active"><i class="fa fa-bullhorn"></i>
+                Announcements</a>
+            <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
+                Approval</a>
+            <a href="/admin/reports" class="menu-item"><i class="fa fa-file-pdf"></i> Reports</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="content-header">
+            <div>
+                <h1>Communication Hub</h1>
+                <p>Post and manage announcements for students</p>
+            </div>
+        </div>
+
+        <div class="todo-container">
+            <!-- Create Announcement Form (Admin Only logic handled in JS?) -->
+            <div class="add-todo-section" id="createAnnouncementSection">
+                <h3>Post New Announcement</h3>
+                <form id="announcementForm">
+                    <div class="form-group">
+                        <input type="text" id="annTitle" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="annContent" placeholder="Write your announcement here..." rows="4"
+                            style="width:100%; padding:10px; border:1px solid #e1e1e1; border-radius:8px;"
+                            required></textarea>
+                    </div>
+                    <div class="form-row" style="justify-content: flex-end;">
+                        <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i>
+                            Publish</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="announcementList">
+                <!-- Announcements injected here -->
+            </div>
+        </div> <!-- Close todo-container -->
+    </div> <!-- Close main-wrapper -->
+
+    <div id="toast">Announcement Published!</div>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/announcements.js"></script>
+</body>
+
+</html>

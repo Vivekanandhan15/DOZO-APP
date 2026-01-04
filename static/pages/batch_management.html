@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Management - DOZO</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>Batch Management</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span id="userName" style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/admin/tasks" class="menu-item"><i class="fa fa-tasks"></i> Tasks</a>
+            <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task
+                Review</a>
+            <a href="/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+            <a href="/admin/students" class="menu-item"><i class="fa fa-users"></i> Students</a>
+            <a href="/admin/teachers" class="menu-item"><i class="fa fa-chalkboard-teacher"></i> Teachers</a>
+            <a href="/admin/staff-management" class="menu-item"><i class="fa fa-user-shield"></i> Staff Management</a>
+            <a href="/admin/batches" class="menu-item active"><i class="fa fa-layer-group"></i> Batch Mgmt</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+            <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i>
+                Announcements</a>
+            <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
+                Approval</a>
+            <a href="/admin/reports" class="menu-item"><i class="fa fa-file-pdf"></i> Reports</a>
+            <a href="/admin/change-password" class="menu-item"><i class="fa fa-key"></i> Change Password</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="content-header">
+            <div>
+                <h1>Batch Management</h1>
+                <p>Configure and manage student batches and schedules</p>
+            </div>
+            <button class="btn btn-gradient" id="createBatchBtn">
+                <i class="fas fa-plus"></i> Create New Batch
+            </button>
+        </div>
+
+        <div class="card">
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Batch Name</th>
+                            <th>Teacher</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th style="text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="batchesTableBody">
+                        <!-- Batches will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="batchModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="modal-header">
+                    <h2 id="modalTitle">Add New Batch</h2>
+                </div>
+
+                <form id="batchForm">
+                    <input type="hidden" id="batchId">
+
+                    <div class="form-group">
+                        <label class="form-label" for="batchName">Batch Name *</label>
+                        <input type="text" id="batchName" class="form-control" required placeholder="e.g. Batch 2024-A">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="teacherId">Teacher *</label>
+                        <select id="teacherId" class="form-control" required>
+                            <option value="" disabled selected>Select Teacher</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label class="form-label" for="startDate">Start Date *</label>
+                            <input type="date" id="startDate" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="endDate">End Date *</label>
+                            <input type="date" id="endDate" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 25px;">
+                        <button type="button" class="btn btn-outline" style="flex: 1;" id="cancelBtn">Cancel</button>
+                        <button type="submit" class="btn btn-gradient" style="flex: 1;">Save Batch</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div> <!-- Close card -->
+    </div> <!-- Close main-wrapper -->
+
+    <!-- JS -->
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/batch_management.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mark Attendance | DOZO</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/attandance.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>Mark Attendance</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span class="welcome-title" style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/admin/tasks" class="menu-item"><i class="fa fa-plus"></i> Create Task</a>
+            <a href="/admin/task-management" class="menu-item"><i class="fa fa-tasks"></i> Manage Tasks</a>
+            <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task Review</a>
+            <a href="/attendance" class="menu-item active"><i class="fa fa-calendar-check"></i> Attendance</a>
+            <a href="/admin/students" class="menu-item"><i class="fa fa-users"></i> Students</a>
+            <a href="/admin/teachers" class="menu-item"><i class="fa fa-chalkboard-teacher"></i> Teachers</a>
+            <a href="/admin/staff-management" class="menu-item"><i class="fa fa-user-shield"></i> Staff Management</a>
+            <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batches</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+            <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i> Announcements</a>
+            <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
+                Approval</a>
+            <a href="/admin/reports" class="menu-item"><i class="fa fa-file-pdf"></i> Reports</a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout(); return false;" class="menu-item logout"><i class="fas fa-sign-out-alt"></i>
+                Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="attendance-page-container" style="padding: 20px;">
+
+            <header class="attendance-header">
+                <!-- Back via route -->
+                <a href="/attendance" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+
+                <h2 class="page-title">
+                    Mark Attendance
+                </h2>
+
+                <div class="batch-selector">
+                    <label for="batch-select">Batch:</label>
+                    <select id="batch-select">
+                        <option value="">Select Batch</option>
+                    </select>
+                </div>
+
+                <div class="date-selector">
+                    <label class="form-label" style="display:inline; margin-right:10px;">Select Date:</label>
+                    <input type="date" id="attendance-date" class="form-control"
+                        style="width: auto; display: inline-block;">
+                    <button class="mark-all-btn btn btn-primary" id="markAllPresent">Mark All Present</button>
+                    <p id="studentCount" style="margin-left: 15px; display: inline; color: #666; font-size: 0.9em;"></p>
+                </div>
+
+                <div class="search-container" style="margin-left: 20px;">
+                    <input type="text" id="attendance-search" placeholder="Search student name..."
+                        style="padding: 8px; border-radius: 6px; border: 1px solid #ddd; width: 250px;">
+                </div>
+            </header>
+
+            <form class="attendance-form" id="markAttendanceForm">
+
+                <div class="attendance-list-header">
+                    <span class="student-name-col">Student Name</span>
+                    <span class="status-col">
+                        Status
+
+                    </span>
+                    <span class="note-col">Notes (Optional)</span>
+                </div>
+
+                <div id="student-list-container">
+                    <!-- Dynamic Students Here -->
+                </div>
+
+                <div class="form-actions"
+                    style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                    <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-gradient btn-primary" id="saveAttendanceBtn">Save
+                        Attendance</button>
+                </div>
+            </form>
+        </div>
+    </div> <!-- Close main-wrapper -->
+
+    <!-- JS -->
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/attendance_marking.js"></script>
+
+</body>
+
+</html>

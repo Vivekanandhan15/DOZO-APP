@@ -1,0 +1,19 @@
+# Environment variables
+.env
+
+
+venv/
+env/
+.venv/
+dozoenv/
+
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

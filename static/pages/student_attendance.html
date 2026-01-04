@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Attendance | DOZO</title>
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <link rel="stylesheet" href="/static/css/student_page.css"> <!-- Contains Calendar styles -->
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>My Attendance</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span id="student-name-nav" style="font-size: 0.9rem; font-weight: 600;">Student</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/student" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/student/tasks" class="menu-item"><i class="fa fa-tasks"></i> My Tasks</a>
+            <a href="/student/attendance" class="menu-item active"><i class="fa fa-calendar-check"></i> My
+                Attendance</a>
+            <a href="/student/leaves" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave Requests</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">SYSTEM</h3>
+            <a href="/student/announcements" class="menu-item"><i class="fa fa-bullhorn"></i> Announcements</a>
+            <a href="/student/profile" class="menu-item"><i class="fa fa-user"></i> My Profile</a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout(); return false;" class="menu-item logout"><i class="fas fa-sign-out-alt"></i>
+                Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <section class="attendance-section" style="padding: 20px;">
+            <div class="attendance-header">
+                <h2>Attendance Calendar</h2>
+                <p>Track your daily presence and records</p>
+            </div>
+
+            <div class="calendar-container card"
+                style="background: white; padding: 20px; border-radius: 12px; max-width: 800px; margin: 0 auto;">
+                <div class="calendar-nav">
+                    <button id="prevMonth">‹</button>
+                    <h3 id="monthYear"></h3>
+                    <button id="nextMonth">›</button>
+                </div>
+                <div class="calendar-days" id="calendarDays"></div>
+
+                <div class="calendar-legend"
+                    style="display: flex; gap: 20px; justify-content: center; margin-top: 20px; font-size: 0.9rem;">
+                    <div><span
+                            style="display:inline-block; width:12px; height:12px; background:#4ecdc4; border-radius:3px;"></span>
+                        Present</div>
+                    <div><span
+                            style="display:inline-block; width:12px; height:12px; background:#ff6b6b; border-radius:3px;"></span>
+                        Absent</div>
+                    <div><span
+                            style="display:inline-block; width:12px; height:12px; background:#f1c40f; border-radius:3px;"></span>
+                        Late</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/student_attendance.js"></script>
+</body>
+
+</html>

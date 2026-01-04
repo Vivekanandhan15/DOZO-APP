@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Review - DOZO Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/admin.css"> <!-- Reusing some card/list styles if needed -->
+    <style>
+        .review-container {
+            padding: 2rem;
+        }
+
+        .submission-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .submission-info h3 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+
+        .submission-info p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .grade-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 60px;
+            margin-right: 10px;
+        }
+
+        .feedback-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 250px;
+            margin-right: 10px;
+        }
+
+        .btn-grade {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-grade:hover {
+            background: #45b7af;
+        }
+
+        .file-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .file-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>Task Review Portal</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/admin/tasks" class="menu-item"><i class="fa fa-tasks"></i> Tasks</a>
+            <a href="/admin/task-review" class="menu-item active"><i class="fa fa-check-double"></i> Task
+                Review</a>
+            <a href="/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+            <a href="/admin/students" class="menu-item"><i class="fa fa-users"></i> Students</a>
+            <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batch
+                Mgmt</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+            <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i>
+                Announcements</a>
+            <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
+                Requests</a>
+            <a href="/admin/reports" class="menu-item"><i class="fa fa-file-pdf"></i> Reports</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+
+        <div class="review-container">
+            <header style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+                <h1>Student Submissions</h1>
+                <div class="filters" style="display: flex; gap: 1rem;">
+                    <input type="text" id="searchInput" placeholder="Search by student or task..."
+                        style="padding: 8px; border-radius: 6px; border: 1px solid #ddd; width: 300px;">
+                    <select id="batchFilter" style="padding: 8px; border-radius: 6px; border: 1px solid #ddd;">
+                        <option value="all">All Batches</option>
+                        <option value="Batch A">Batch A</option>
+                        <option value="Batch B">Batch B</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+            </header>
+
+            <div id="submissionsList">
+                <!-- Submissions injected here -->
+                <p style="text-align: center; color: #888;">Loading submissions...</p>
+            </div>
+        </div> <!-- Close main-wrapper -->
+
+        <script src="/static/js/auth.js"></script>
+        <script src="/static/js/task_review.js"></script>
+</body>
+
+</html>

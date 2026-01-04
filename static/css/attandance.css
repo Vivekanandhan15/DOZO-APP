@@ -1,0 +1,273 @@
+body {
+    background-color: #f7f8fc;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.attendance-page-container {
+    width: 100%;
+    padding: 24px;
+    background-color: transparent;
+    /* Changed to transparent as main-wrapper handle bg */
+    border-radius: 0;
+    box-shadow: none;
+}
+
+
+.attendance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.page-title {
+    margin-left: 30px;
+    font-size: 1.5em;
+    color: #333;
+    font-weight: 600;
+    flex-grow: 1;
+}
+
+.back-link {
+    color: #5d5cff;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.date-selector label {
+    margin-right: 5px;
+    color: #555;
+    font-weight: 500;
+}
+
+.date-selector input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-width: 150px;
+}
+
+
+.attendance-list-header {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr;
+    gap: 10px;
+    padding: 15px 10px;
+    background-color: #f0f2f7;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.mark-all-btn {
+    background-color: #5d5cff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 15px;
+    white-space: nowrap;
+}
+
+/* Student row */
+.student-item {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr;
+    gap: 10px;
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.student-name-col {
+    font-weight: 500;
+    color: #333;
+}
+
+
+
+.status-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.radio-option {
+    display: inline-flex;
+    align-items: center;
+}
+
+.status-controls input[type="radio"] {
+    display: none;
+}
+
+.status-controls label {
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.status-controls input[type="radio"]:checked+.present {
+    background-color: #e6f7e9;
+    color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.status-controls input[type="radio"]:checked+.absent {
+    background-color: #fee;
+    color: #F44336;
+    border-color: #F44336;
+}
+
+.present,
+.absent {
+    color: #777;
+}
+
+
+.student-note {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 90%;
+}
+
+.student-note[readonly] {
+    background-color: #fcfcfc;
+    color: #777;
+}
+
+
+.form-actions {
+    text-align: right;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1em;
+    margin-left: 10px;
+}
+
+.btn-primary {
+    background-color: #5d5cff;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #f0f2f7;
+    color: #555;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+    .attendance-page-container {
+        margin: 0;
+        padding: 15px;
+        border-radius: 0;
+        box-shadow: none;
+        max-width: 100%;
+        min-height: 100vh;
+    }
+
+    .attendance-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .back-link {
+        margin-bottom: 10px;
+    }
+
+    .page-title {
+        font-size: 1.3em;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    .date-selector {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .date-selector input[type="date"] {
+        flex-grow: 1;
+        margin-left: 10px;
+    }
+
+    .attendance-list-header,
+    .student-item {
+        grid-template-columns: 1fr;
+        gap: 5px;
+        padding: 15px;
+    }
+
+    .attendance-list-header {
+        text-align: left;
+        padding: 10px 15px;
+    }
+
+    .attendance-list-header .note-col {
+        display: none;
+    }
+
+    .student-item .student-name-col {
+        padding-bottom: 5px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .status-controls {
+        display: flex;
+        gap: 10px;
+    }
+
+    .status-controls label {
+        flex-grow: 1;
+        text-align: center;
+        margin-right: 0;
+    }
+
+    .student-note {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .mark-all-btn {
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
+        padding: 8px;
+        font-size: 1em;
+    }
+
+    .form-actions {
+        text-align: center;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+}

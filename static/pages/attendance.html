@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Dashboard | DOZO</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/attandance.css">
+    <!-- Reusing existing css or adding new styles inline for dashboard specifics if needed -->
+
+    <style>
+        /* Dashboard specific styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-title h2 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .date-filter select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background: white;
+            font-size: 14px;
+        }
+
+        .mark-btn {
+            background-color: #10b981;
+            /* Green */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .mark-btn:hover {
+            background-color: #059669;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .icon-present {
+            background: #dcfce7;
+            color: #10b981;
+        }
+
+        .icon-absent {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .icon-leave {
+            background: #fef9c3;
+            color: #ca8a04;
+        }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .stat-subtext {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .stat-right {
+            text-align: right;
+        }
+
+        .stat-rate {
+            font-size: 24px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .stat-rate-label {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin-top: 8px;
+            width: 60px;
+            margin-left: auto;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #10b981;
+            border-radius: 2px;
+        }
+
+        /* content grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            height: 100%;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        /* Batches List */
+        .batch-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .batch-item {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+        }
+
+        .batch-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .batch-icon {
+            width: 40px;
+            height: 40px;
+            background: #e0e7ff;
+            color: #4338ca;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .batch-icon.green {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .batch-icon.purple {
+            background: #f3e8ff;
+            color: #7e22ce;
+        }
+
+        .batch-details h4 {
+            margin: 0 0 4px 0;
+            font-size: 15px;
+            color: #1e293b;
+        }
+
+        .batch-details p {
+            margin: 0;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .batch-stats {
+            text-align: right;
+        }
+
+        .batch-percent {
+            font-size: 16px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 4px;
+        }
+
+        .batch-ratio {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* Leave Requests */
+        .leave-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .leave-item {
+            background: #fef9c3;
+            /* Light yellow bg for pending items as per screenshot sort of */
+            padding: 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .leave-item.approved {
+            background: #dcfce7;
+        }
+
+        /* Greenish for approved */
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #555;
+            text-transform: uppercase;
+        }
+
+        .student-details h4 {
+            margin: 0 0 2px 0;
+            font-size: 14px;
+            color: #92400e;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .student-details p {
+            margin: 0;
+            font-size: 13px;
+            color: #92400e;
+            opacity: 0.8;
+        }
+
+        .leave-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-approve {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-reject {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>Attendance Dashboard</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span class="welcome-title" style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/admin/tasks" class="menu-item"><i class="fa fa-plus"></i> Create Task</a>
+            <a href="/admin/task-management" class="menu-item"><i class="fa fa-tasks"></i> Manage Tasks</a>
+            <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task Review</a>
+            <a href="/attendance" class="menu-item active"><i class="fa fa-calendar-check"></i> Attendance</a>
+            <a href="/admin/students" class="menu-item"><i class="fa fa-users"></i> Students</a>
+            <a href="/admin/teachers" class="menu-item"><i class="fa fa-chalkboard-teacher"></i> Teachers</a>
+            <a href="/admin/staff-management" class="menu-item"><i class="fa fa-user-shield"></i> Staff Management</a>
+            <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batches</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+            <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i> Announcements</a>
+            <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
+                Approval</a>
+            <a href="/admin/reports" class="menu-item"><i class="fa fa-file-pdf"></i> Reports</a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout(); return false;" class="menu-item logout"><i class="fas fa-sign-out-alt"></i>
+                Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="attendance-page-container">
+
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-title">
+                    <h2>Attendance Management</h2>
+                </div>
+
+                <div class="header-actions">
+                    <div class="date-filter">
+                        <select id="period-select">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+
+                    <a href="/attendance/mark" class="mark-btn">
+                        <i class="fas fa-check-square"></i> Mark Attendance
+                    </a>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid" id="stats-container">
+                <!-- Present Card -->
+                <div class="stat-card">
+                    <div class="icon-box icon-present">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Present Today</div>
+                        <div class="stat-value" id="present-count">--</div>
+                        <div class="stat-subtext"><span id="total-students">--</span> students</div>
+                    </div>
+                    <div class="stat-right">
+                        <div class="stat-rate" id="present-rate">--%</div>
+                        <div class="stat-rate-label">Overall Rate</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="present-progress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Absent Card -->
+                <div class="stat-card">
+                    <div class="icon-box icon-absent">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Absent Today</div>
+                        <div class="stat-value" id="absent-count">--</div>
+                        <div class="stat-subtext">
+                            <span id="unexcused-count">--</span> unexcused<br>
+                            <span id="on-leave-count">--</span> on leave
+                        </div>
+                    </div>
+                    <div class="stat-right">
+                        <div class="stat-value" style="font-size: 24px;" id="total-absent">--</div>
+                        <div class="stat-rate-label">Students</div>
+                    </div>
+                </div>
+
+                <!-- Requests Card -->
+                <div class="stat-card">
+                    <div class="icon-box icon-leave">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Leave Requests</div>
+                        <div class="stat-subtext">Awaiting approval</div>
+                    </div>
+                    <div class="stat-right">
+                        <div class="stat-value" id="pending-count">--</div>
+                        <div class="stat-rate-label">Pending</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+
+                <!-- Batch-wise Attendance -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Batch-wise Attendance</div>
+                        <a href="/admin/batches" style="color: #64748b; text-decoration: none; font-size: 13px;">View
+                            All</a>
+                    </div>
+
+                    <div class="batch-list" id="batch-list">
+                        <!-- Dynamic Batches -->
+                        <div class="batch-item">
+                            <p>Loading batches...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leave Requests -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">Leave Requests</div>
+                        <a href="/admin/leave-approval"
+                            style="color: #64748b; text-decoration: none; font-size: 13px;">View
+                            All</a>
+                    </div>
+
+                    <div class="leave-list" id="leave-list">
+                        <!-- Dynamic Leaves -->
+                        <div class="leave-item">
+                            <p>Loading requests...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div> <!-- Close main-wrapper -->
+    <!-- JS -->
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/attendance_dashboard.js"></script>
+
+</body>
+
+</html>

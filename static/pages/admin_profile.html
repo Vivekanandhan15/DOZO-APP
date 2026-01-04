@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Profile Settings | DOZO</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <!-- CSS (reuse profile styles) -->
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/student_profile.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>Admin Profile</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/admin/tasks" class="menu-item"><i class="fa fa-plus"></i> Create Task</a>
+            <a href="/admin/task-management" class="menu-item"><i class="fa fa-tasks"></i> Manage Tasks</a>
+            <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task Review</a>
+            <a href="/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+            <a href="/admin/students" class="menu-item"><i class="fa fa-users"></i> Students</a>
+            <a href="/admin/teachers" class="menu-item"><i class="fa fa-chalkboard-teacher"></i> Teachers</a>
+            <a href="/admin/staff-management" class="menu-item"><i class="fa fa-user-shield"></i> Staff Management</a>
+            <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batches</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+            <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i> Announcements</a>
+            <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
+                Approval</a>
+            <a href="/admin/reports" class="menu-item"><i class="fa fa-file-pdf"></i> Reports</a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout(); return false;" class="menu-item logout"><i class="fas fa-sign-out-alt"></i>
+                Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="settings-page-container" style="padding: 20px;">
+
+            <div class="profile-header">
+                <h2 class="page-title">
+                    <i class="fas fa-user-cog"></i> Admin Profile Settings
+                </h2>
+                <p class="role-display">
+                    Role: <span id="userRole">Lead Instructor</span>
+                </p>
+            </div>
+
+            <div class="settings-card">
+
+                <!-- PROFILE OVERVIEW -->
+                <div class="profile-overview">
+                    <div class="avatar-large avatar-admin">A</div>
+                    <div class="profile-details">
+                        <span class="user-name">ANISHA FATHIMA</span>
+                        <span class="user-email">anisha.fathima@dozo.edu</span>
+                        <span class="user-id">EMP ID: DOZOEMP001</span>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <!-- TABS -->
+                <div class="settings-tabs">
+                    <button class="tab-button active" data-tab="general">
+                        <i class="fas fa-id-card"></i> Personal Info
+                    </button>
+                    <button class="tab-button" data-tab="security">
+                        <i class="fas fa-lock"></i> Security
+                    </button>
+                </div>
+
+                <!-- PERSONAL INFO -->
+                <div class="tab-content active" id="general">
+                    <h3 class="tab-title">Contact & Personal Information</h3>
+
+                    <form class="settings-form">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" value="ANISHA FATHIMA" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Work Phone Number</label>
+                            <input type="tel" id="phone" value="+91 90000 12345">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="homeAddress">Residential Address</label>
+                            <input type="text" id="homeAddress" placeholder="Address">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emergencyContact">Emergency Contact</label>
+                            <input type="tel" id="emergencyContact" value="+91 9999999999">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Personal Info
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!-- SECURITY -->
+                <div class="tab-content" id="security">
+                    <h3 class="tab-title">Security & Authentication</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">For your security, password updates are
+                        handled on a dedicated secure page.</p>
+
+                    <div
+                        style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; text-align: center;">
+                        <div
+                            style="width: 50px; height: 50px; background: #e0e7ff; color: #4f46e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.2rem;">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4 style="margin-bottom: 10px;">Change Account Password</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">Ensure your account
+                            remains safe by using a strong, unique password.</p>
+                        <a href="/admin/change-password" class="btn btn-primary"
+                            style="text-decoration: none; display: inline-flex; justify-content: center;">
+                            <i class="fas fa-key"></i> Go to Password Update
+                        </a>
+                    </div>
+                </div>
+
+            </div> <!-- Close settings-card -->
+        </div> <!-- Close settings-page-container -->
+    </div> <!-- Close main-wrapper -->
+
+    <!-- TAB SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.dataset.tab;
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    document.getElementById(target).classList.add('active');
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Students | DOZO</title>
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/admin.css"> <!-- Reuse admin styles for consistency -->
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>My Students</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span class="welcome-title" style="font-size: 0.9rem; font-weight: 600;">Teacher</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/teacher" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/teacher/students" class="menu-item active"><i class="fa fa-users"></i> My Students</a>
+            <a href="/teacher/batches" class="menu-item"><i class="fa fa-layer-group"></i> My Batches</a>
+            <a href="/teacher/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/teacher/announcements" class="menu-item"><i class="fa fa-bullhorn"></i> Announcements</a>
+            <a href="/teacher/leaves" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave Requests</a>
+            <a href="/teacher/change-password" class="menu-item"><i class="fa fa-key"></i> Change Password</a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout(); return false;" class="menu-item logout"><i class="fas fa-sign-out-alt"></i>
+                Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <header style="margin-bottom: 24px;">
+            <div>
+                <h1>All Students</h1>
+                <p>View students enrolled in your batches</p>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="card">
+                <table class="data-table" style="width:100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background:#f8f9fa; border-bottom: 2px solid #eee;">
+                            <th style="padding:15px; text-align:left;">Student Name</th>
+                            <th style="padding:15px; text-align:left;">Roll No</th>
+                            <th style="padding:15px; text-align:left;">Batch</th>
+                            <th style="padding:15px; text-align:left;">Attendance</th>
+                            <th style="padding:15px; text-align:left;">Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTableBody">
+                        <tr>
+                            <td colspan="5" style="text-align:center; padding:20px;">Loading students...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/teacher_students.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Students | DOZO Student Portal</title>
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <!-- Favicon -->
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/admin_student_page.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>Student Management</h2>
+        </div>
+        <div class="nav-right">
+            <div class="search-box">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="Search students..." class="search-input">
+            </div>
+            <div class="user-profile">
+                <span style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/admin/tasks" class="menu-item"><i class="fa fa-tasks"></i> Tasks</a>
+            <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task
+                Review</a>
+            <a href="/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+            <a href="/admin/students" class="menu-item active"><i class="fa fa-users"></i> Students</a>
+            <a href="/admin/teachers" class="menu-item"><i class="fa fa-chalkboard-teacher"></i> Teachers</a>
+            <a href="/admin/staff-management" class="menu-item"><i class="fa fa-user-shield"></i> Staff Management</a>
+            <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batch Mgmt</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+            <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i>
+                Announcements</a>
+            <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
+                Approval</a>
+            <a href="/admin/reports" class="menu-item"><i class="fa fa-file-pdf"></i> Reports</a>
+            <a href="/admin/change-password" class="menu-item"><i class="fa fa-key"></i> Change Password</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="content-header">
+            <div>
+                <h1>All Students</h1>
+                <p>View and manage all enrolled students</p>
+            </div>
+            <a href="/admin/students/add">
+                <button class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Add New Student
+                </button>
+            </a>
+        </div>
+
+        <div class="card">
+
+            <!-- FILTERS -->
+            <div class="student-filters">
+                <select id="batchFilter" class="filter-select">
+                    <option value="">All Batches</option>
+                </select>
+
+                <select id="statusFilter" class="filter-select">
+                    <option value="">All Status</option>
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">Inactive</option>
+                </select>
+            </div>
+
+            <!-- STUDENT LIST -->
+            <div class="student-list-card">
+
+                <div class="list-header">
+                    <span class="header-col student-info-col">Student Name</span>
+                    <span class="header-col">Email</span>
+                    <span class="header-col">Batch</span>
+                    <span class="header-col">Attendance</span>
+                    <span class="header-col">Status</span>
+                    <span class="header-col actions-col">Actions</span>
+                </div>
+
+                <!-- Student items will be inserted here by JS -->
+
+                <!-- PAGINATION -->
+                <div class="pagination">
+                    <span>Showing 1 to 10 of 45 students</span>
+                    <div>
+                        <button class="icon-btn"><i class="fas fa-chevron-left"></i></button>
+                        <button class="icon-btn active">1</button>
+                        <button class="icon-btn">2</button>
+                        <button class="icon-btn">3</button>
+                        <button class="icon-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- Close card -->
+    </div> <!-- Close main-wrapper -->
+
+    <!-- Edit/View Student Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalTitle">Edit Student</h2>
+            </div>
+            <form id="studentForm">
+                <input type="hidden" id="studentId">
+
+                <div class="form-group">
+                    <label class="form-label">Student Name</label>
+                    <input type="text" id="studentName" class="form-control" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Roll Number</label>
+                    <input type="text" id="studentRoll" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Parent Contact</label>
+                    <input type="text" id="parentContact" class="form-control" required>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 25px;">
+                    <button type="button" class="btn btn-outline" style="flex: 1;" id="closeBtn">Cancel</button>
+                    <button type="submit" class="btn btn-gradient" style="flex: 1;" id="saveBtn">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/admin_students.js"></script>
+</body>
+
+</html>

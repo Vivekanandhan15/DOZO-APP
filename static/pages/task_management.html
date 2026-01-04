@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management - DOZO</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/batch_management.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>Task Management</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span id="userName" style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/admin/tasks" class="menu-item"><i class="fa fa-plus"></i> Create Task</a>
+            <a href="/admin/task-management" class="menu-item active"><i class="fa fa-tasks"></i> Manage Tasks</a>
+            <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task Review</a>
+            <a href="/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+            <a href="/admin/students" class="menu-item"><i class="fa fa-users"></i> Students</a>
+            <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batch Mgmt</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+            <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i> Announcements</a>
+            <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
+                Approval</a>
+            <a href="/admin/reports" class="menu-item"><i class="fa fa-file-pdf"></i> Reports</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="content-header">
+            <div>
+                <h1>Task Management</h1>
+                <p>View, edit, and manage all assignments</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.location.href='/admin/tasks'">
+                <i class="fas fa-plus"></i> Create New Task
+            </button>
+        </div>
+
+        <div class="card">
+            <!-- Search and Filter -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center;">
+                <input type="text" id="searchInput" placeholder="Search tasks..."
+                    style="flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 8px;">
+                <select id="statusFilter" style="padding: 10px 15px; border: 1px solid #ddd; border-radius: 8px;">
+                    <option value="">All Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Overdue">Overdue</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+
+            <div class="batches-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Task Name</th>
+                            <th>Batch</th>
+                            <th>Owner</th>
+                            <th>Due Date</th>
+                            <th>Submissions</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasksTableBody">
+                        <!-- Tasks will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Edit Task</h3>
+                    <span class="close">&times;</span>
+                </div>
+
+                <form id="editTaskForm">
+                    <input type="hidden" id="editTaskId">
+
+                    <div class="form-group">
+                        <label for="editTitle">Task Title *</label>
+                        <input type="text" id="editTitle" required placeholder="e.g. React Basics">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editDescription">Description</label>
+                        <textarea id="editDescription" rows="3" placeholder="Task description..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editBatch">Batch *</label>
+                        <select id="editBatch" required>
+                            <option value="">Select Batch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editDueDate">Due Date *</label>
+                        <input type="date" id="editDueDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editPoints">Points</label>
+                        <input type="number" id="editPoints" placeholder="100">
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" id="cancelEditBtn">Cancel</button>
+                        <button type="submit" class="btn-primary">Update Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div> <!-- Close main-wrapper -->
+
+    <!-- JS -->
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/task_management.js"></script>
+</body>
+
+</html>

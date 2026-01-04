@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Approval | DOZO</title>
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/todo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .leave-table-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-PENDING {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-APPROVED {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-REJECTED {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-approve {
+            background: #2ed573;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-reject {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-approve:hover {
+            opacity: 0.8;
+        }
+
+        .btn-reject:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>Leave Approval</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span id="userName" style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/admin/tasks" class="menu-item"><i class="fa fa-tasks"></i> Tasks</a>
+            <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task
+                Review</a>
+            <a href="/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+            <a href="/admin/students" class="menu-item"><i class="fa fa-users"></i> Students</a>
+            <a href="/admin/teachers" class="menu-item"><i class="fa fa-chalkboard-teacher"></i> Teachers</a>
+            <a href="/admin/staff-management" class="menu-item"><i class="fa fa-user-shield"></i> Staff Management</a>
+            <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batches</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+            <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i>
+                Announcements</a>
+            <a href="/admin/leave-approval" class="menu-item active"><i class="fa fa-envelope-open-text"></i> Leave
+                Approval</a>
+            <a href="/admin/reports" class="menu-item"><i class="fa fa-file-pdf"></i> Reports</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="content-header">
+            <div>
+                <h1>Leave Requests</h1>
+                <p>Review and manage student leave applications</p>
+            </div>
+        </div>
+
+        <div class="todo-container" style="max-width: 1000px; margin: 0 auto;">
+            <div class="filter-tabs">
+                <button class="tab active" data-filter="all">All Requests</button>
+                <button class="tab" data-filter="PENDING">Pending</button>
+                <button class="tab" data-filter="APPROVED">Approved</button>
+                <button class="tab" data-filter="REJECTED">Rejected</button>
+            </div>
+
+            <div class="leave-table-container">
+                <table id="leaveTable">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Date</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaveList">
+                        <!-- Injected by JS -->
+                    </tbody>
+                </table>
+            </div> <!-- Close leave-table-container -->
+        </div> <!-- Close todo-container -->
+    </div> <!-- Close main-wrapper -->
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/leave_approval.js"></script>
+</body>
+
+</html>

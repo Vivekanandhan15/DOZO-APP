@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mark Attendance | DOZO</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/assets/logo.png"
+        type="image/x-icon">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/attandance.css">
+</head>
+
+<body>
+
+    <div class="attendance-page-container">
+
+        <header class="attendance-header">
+            <!-- Back via route -->
+            <a href="/admin" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+
+            <h2 class="page-title">
+                Mark Attendance
+            </h2>
+
+            <div class="batch-selector">
+                <label for="batch-select">Batch:</label>
+                <select id="batch-select">
+                    <option value="">Select Batch</option>
+                </select>
+            </div>
+
+            <div class="date-selector">
+                <label for="attendance-date">Date:</label>
+                <input type="date" id="attendance-date">
+            </div>
+        </header>
+
+        <form class="attendance-form" id="markAttendanceForm">
+
+            <div class="attendance-list-header">
+                <span class="student-name-col">Student Name</span>
+                <span class="status-col">
+                    Status
+                    <button type="button" class="mark-all-btn" data-status="present">
+                        <i class="fas fa-check"></i> Mark All Present
+                    </button>
+                </span>
+                <span class="note-col">Notes (Optional)</span>
+            </div>
+
+            <div id="student-list-container">
+                <!-- Dynamic Students Here -->
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    Save Attendance
+                </button>
+
+                <a href="/admin">
+                    <button type="button" class="btn btn-secondary">
+                        Cancel
+                    </button>
+                </a>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- JS -->
+    <script src="/static/js/attendance_marking.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Student Page - DOZO</title>
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/static/assets/logo.png"
+    type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/static/css/student_page.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="/student" class="logo-link">
+      <img src="/static/assets/logo.png" alt="Logo"
+        class="logo">
+    </a>
+
+    <nav class="Nav-bar">
+      <div class="nav-center">
+        <a href="/student" class="navcom">Dashboard</a>
+        <a href="#Tasks" class="navcom">Tasks</a>
+        <a href="#Leaves" class="navcom">Leaves</a>
+        <a href="#Attendance" class="navcom">Attendance</a>
+      </div>
+
+      <div class="nav-right">
+        <a href="/student/profile" class="navcom">Profile</a>
+        <span class="navcom">Vivekanandhan P</span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- DASHBOARD -->
+  <section class="Mini-dashboard section-1">
+    <div class="main-div">
+      <div class="left-content">
+        <h2>Good Morning, Vivekanandhan P</h2>
+        <p>You have 4 pending tasks and 1 upcoming deadline.</p>
+      </div>
+      <div class="right-content">
+        <div class="info-box">
+          <h3>92%</h3>
+          <p>Attendance</p>
+        </div>
+        <div class="info-box">
+          <h3>15</h3>
+          <p>Days Streak</p>
+        </div>
+        <div class="info-box">
+          <h3>A+</h3>
+          <p>Avg Grade</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TASKS -->
+  <section class="section-4" id="Tasks">
+    <div class="header-Tasks">
+      <div>
+        <h2>Today's Tasks</h2>
+        <p>Stay on track with your daily assignments</p>
+      </div>
+    </div>
+
+    <div class="task-filters">
+      <button class="active">All</button>
+      <button>Pending</button>
+      <button>In-Progress</button>
+      <button>Submitted</button>
+    </div>
+
+    <div class="task-grid">
+      <!-- Tasks will be dynamically loaded here -->
+    </div>
+  </section>
+
+  <!-- LEAVE REQUESTS -->
+  <section class="leave-section" id="Leaves">
+    <div class="leave-header">
+      <h2>Request Leave</h2>
+      <p>Submit your leave requests</p>
+    </div>
+
+    <div class="leave-form-container">
+      <form id="leaveRequestForm">
+        <div class="form-group">
+          <label for="leaveDate">Date</label>
+          <input type="date" id="leaveDate" required>
+        </div>
+
+        <div class="form-group">
+          <label for="leaveReason">Reason</label>
+          <textarea id="leaveReason" rows="3" placeholder="Enter reason for leave..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Submit Leave Request</button>
+      </form>
+    </div>
+
+    <div class="leave-history">
+      <h3>My Leave Requests</h3>
+      <div id="leaveList" class="leave-items">
+        <!-- Leave requests will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ANNOUNCEMENTS -->
+  <section class="announcements-section" id="Announcements">
+    <div class="announcements-header">
+      <h2>Recent Announcements</h2>
+      <a href="#announcements-section"
+        onclick="document.getElementById('announcements-section').scrollIntoView(); return false;" class="view-all">View
+        All</a>
+    </div>
+
+    <div id="announcementsList" class="announcements-list">
+      <!-- Announcements will be loaded here -->
+    </div>
+  </section>
+
+  <!-- ATTENDANCE -->
+  <section class="attendance-section" id="Attendance">
+    <div class="attendance-header">
+      <h2>Attendance Calendar</h2>
+      <p>Track your daily attendance</p>
+    </div>
+
+    <div class="calendar-nav">
+      <button id="prevMonth">‹</button>
+      <h3 id="monthYear"></h3>
+      <button id="nextMonth">›</button>
+    </div>
+
+    <div class="calendar-days" id="calendarDays"></div>
+  </section>
+
+  <!-- LEAVE REQUESTS -->
+
+
+  <!-- FOOTER -->
+  <footer class="dozo-footer">
+    <div class="footer-container">
+
+      <div class="footer-brand">
+        <img src="/static/assets/logo.png" class="logo">
+        <h3>DOZO</h3>
+        <p>Student Portal</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="/student/profile">Profile Settings</a></li>
+          <li><a href="#" onclick="logout(); return false;" class="logout-link" style="color: red;">Logout</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 DOZO Student Portal</p>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="/static/js/Attendance.js"></script>
+  <script src="/static/js/student_page.js"></script>
+
+  <!-- Submission Modal -->
+  <div id="submissionModal" class="modal"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+    <div class="modal-content"
+      style="background: white; padding: 2rem; border-radius: 12px; width: 90%; max-width: 500px; position: relative;">
+      <span onclick="closeSubmissionModal()"
+        style="position: absolute; right: 20px; top: 15px; cursor: pointer; font-size: 1.5rem;">&times;</span>
+      <h2 style="margin-top: 0;">Submit Assignment</h2>
+      <form id="submissionForm" onsubmit="handleSubmission(event)">
+        <input type="hidden" id="submitTaskId">
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 5px; font-weight: bold;">File Upload (URL)</label>
+          <input type="url" id="submitFileUrl" placeholder="https://github.com/..." required
+            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 5px; font-weight: bold;">Description</label>
+          <textarea id="submitDesc" rows="4" placeholder="Brief description of your work..."
+            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;"></textarea>
+        </div>
+        <div style="text-align: right;">
+          <button type="button" onclick="closeSubmissionModal()"
+            style="padding: 10px 20px; border: none; background: #eee; border-radius: 6px; cursor: pointer; margin-right: 10px;">Cancel</button>
+          <button type="submit"
+            style="padding: 10px 20px; border: none; background: #4ecdc4; color: white; border-radius: 6px; cursor: pointer;">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

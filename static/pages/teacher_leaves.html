@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Leaves | DOZO</title>
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left"><img src="/static/assets/logo.png" alt="DOZO"></div>
+        <div class="nav-center">
+            <h2>My Leave Requests</h2>
+        </div>
+        <div class="nav-right">
+            <span id="teacher-name-nav" style="font-weight: 600;">Teacher</span>
+            <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Manage</div>
+            <a href="/teacher" class="menu-item"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="/teacher/attendance" class="menu-item"><i class="fas fa-calendar-check"></i> My Attendance</a>
+            <a href="/teacher/leaves" class="menu-item active"><i class="fas fa-envelope-open-text"></i> My Leaves</a>
+            <a href="/teacher/change-password" class="menu-item"><i class="fa fa-key"></i> Change Password</a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout(); return false;" class="menu-item logout"><i class="fas fa-sign-out-alt"></i>
+                Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="content-grid" style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px;">
+            <!-- Request Form -->
+            <div class="card">
+                <h3>Request New Leave</h3>
+                <form id="leave-form" style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Date of Leave</label>
+                        <input type="date" id="leave-date" required
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Reason</label>
+                        <textarea id="leave-reason" placeholder="Explain your reason..." required
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; min-height: 100px; resize: vertical;"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary"
+                        style="padding: 12px; border-radius: 8px; font-weight: 600;">Submit Request</button>
+                </form>
+            </div>
+
+            <!-- History List -->
+            <div class="card">
+                <h3>Leave History</h3>
+                <div id="leave-history" style="margin-top: 15px;">
+                    <p style="color: #888; text-align: center; padding: 20px;">No leave requests found.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/teacher_leaves.js"></script>
+</body>
+
+</html>

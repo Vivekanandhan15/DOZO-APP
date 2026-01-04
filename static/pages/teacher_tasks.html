@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Tasks | DOZO</title>
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>Manage Tasks</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span class="welcome-title" style="font-size: 0.9rem; font-weight: 600;">Teacher</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/teacher" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/teacher/students" class="menu-item"><i class="fa fa-users"></i> My Students</a>
+            <a href="/teacher/batches" class="menu-item"><i class="fa fa-layer-group"></i> My Batches</a>
+            <a href="/teacher/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/teacher/announcements" class="menu-item"><i class="fa fa-bullhorn"></i> Announcements</a>
+            <a href="/teacher/tasks" class="menu-item active"><i class="fa fa-tasks"></i> Manage Tasks</a>
+            <a href="/teacher/leaves" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave Requests</a>
+            <!-- Added Teacher Todo link as requested -->
+            <a href="/teacher/todo" class="menu-item"><i class="fa fa-list-ul"></i> My Todo</a>
+            <a href="/teacher/change-password" class="menu-item"><i class="fa fa-key"></i> Change Password</a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout(); return false;" class="menu-item logout"><i class="fas fa-sign-out-alt"></i>
+                Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <header style="margin-bottom: 24px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h1>Assignments & Tasks</h1>
+                    <p>Create and manage class assignments</p>
+                </div>
+                <button class="btn-primary" id="createTaskBtn"><i class="fas fa-plus"></i> Create Task</button>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Filter -->
+            <div class="card" style="margin-bottom:20px; padding:15px;">
+                <label style="font-weight:bold; margin-right:10px;">Select Batch:</label>
+                <select id="batchSelect"
+                    style="padding:8px; border-radius:4px; border:1px solid #ddd; min-width:200px;">
+                    <option value="" disabled selected>Select a batch...</option>
+                </select>
+            </div>
+
+            <div class="card">
+                <table class="data-table" style="width:100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background:#f8f9fa;">
+                            <th style="padding:15px; text-align:left;">Title</th>
+                            <th style="padding:15px; text-align:left;">Owner</th>
+                            <th style="padding:15px; text-align:left;">Due Date</th>
+                            <th style="padding:15px; text-align:left;">Points</th>
+                            <th style="padding:15px; text-align:right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasksTableBody">
+                        <tr>
+                            <td colspan="4" style="text-align:center; padding:20px; color:#888;">Select a batch to view
+                                tasks.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Create Modal -->
+        <div id="taskModal" class="modal"
+            style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+            <div class="modal-content"
+                style="background:white; margin:10% auto; padding:20px; width:50%; border-radius:8px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                    <h2 id="modalTitle">Create New Task</h2>
+                    <span class="close" style="cursor:pointer; font-size:1.5rem;">&times;</span>
+                </div>
+                <form id="taskForm">
+                    <input type="hidden" id="taskId">
+                    <div style="margin-bottom:15px;">
+                        <label style="display:block; font-weight:bold;">Title</label>
+                        <input type="text" id="taskTitle" required
+                            style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                    </div>
+                    <div style="margin-bottom:15px;">
+                        <label style="display:block; font-weight:bold;">Description</label>
+                        <textarea id="taskDesc" required rows="3"
+                            style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;"></textarea>
+                    </div>
+                    <div style="display:flex; gap:15px; margin-bottom:15px;">
+                        <div style="flex:1;">
+                            <label style="display:block; font-weight:bold;">Due Date</label>
+                            <input type="date" id="taskDueDate" required
+                                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="display:block; font-weight:bold;">Points</label>
+                            <input type="number" id="taskPoints" required
+                                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        </div>
+                    </div>
+                    <div style="text-align:right;">
+                        <button type="submit"
+                            style="padding:10px 20px; background:#4f46e5; color:white; border:none; border-radius:4px; cursor:pointer;">Save
+                            Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/teacher_tasks.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOZO – Login</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+  <h2>DOZO – The Do Zone</h2>
+
+  <div class="container" id="container">
+
+    <!-- SIGN IN -->
+    <div class="form-container sign-in-container" style="width: 100%; left: 0;">
+      <form id="signInForm">
+        <h1>Sign In</h1>
+
+        <div class="social-container">
+          <a href="#" class="social">
+            <i class="fab fa-google-plus-g"></i>
+          </a>
+        </div>
+
+        <span>or use your account</span>
+
+        <input type="email" id="signinEmail" placeholder="Email" required>
+        <input type="password" id="signinPassword" placeholder="Password" required>
+
+        <a href="/forgot-password">Forgot your password?</a>
+
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+
+    <!-- OVERLAY -->
+    <div class="overlay-container" style="display: none;">
+      <div class="overlay">
+        <div class="overlay-panel overlay-right">
+          <h1>Hello, Friend!</h1>
+          <p>Enter your personal details and start journey with us</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Auth JS -->
+  <script src="/static/js/auth.js"></script>
+
+
+</body>
+
+</html>

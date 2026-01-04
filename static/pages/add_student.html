@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Add Student | DOZO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="/static/css/layout.css">
+  <link rel="stylesheet" href="/static/css/add_studnet.css">
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="/static/assets/logo.png" alt="DOZO Logo">
+    </div>
+    <div class="nav-center">
+      <h2>Add Student</h2>
+    </div>
+    <div class="nav-right">
+      <div class="user-profile">
+        <span style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+        <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+      </div>
+    </div>
+  </nav>
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">MAIN MENU</h3>
+      <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+      <a href="/admin/tasks" class="menu-item"><i class="fa fa-plus"></i> Create Task</a>
+      <a href="/admin/task-management" class="menu-item"><i class="fa fa-tasks"></i> Manage Tasks</a>
+      <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task Review</a>
+      <a href="/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+      <a href="/admin/students" class="menu-item active"><i class="fa fa-users"></i> Students</a>
+      <a href="/admin/teachers" class="menu-item"><i class="fa fa-chalkboard-teacher"></i> Teachers</a>
+      <a href="/admin/staff-management" class="menu-item"><i class="fa fa-user-shield"></i> Staff Management</a>
+      <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batches</a>
+    </div>
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">TOOLS</h3>
+      <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+      <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i> Announcements</a>
+      <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
+        Approval</a>
+      <a href="/admin/reports" class="menu-item"><i class="fa fa-file-pdf"></i> Reports</a>
+      <a href="/admin/change-password" class="menu-item"><i class="fa fa-key"></i> Change Password</a>
+    </div>
+    <div class="sidebar-footer">
+      <a href="#" onclick="logout(); return false;" class="menu-item logout"><i class="fas fa-sign-out-alt"></i>
+        Logout</a>
+    </div>
+  </aside>
+
+  <div class="main-wrapper">
+    <div class="add-student-page-container"
+      style="display: flex; justify-content: center; align-items: flex-start; min-height: calc(100vh - var(--navbar-height)); padding-top: 40px;">
+      <div class="card" style="width: 100%; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <div
+            style="width: 60px; height: 60px; background: #e0e7ff; color: #4f46e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5rem;">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <h2 style="font-size: 1.5rem; font-weight: 700; color: #111827;">Add New Student</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Fill in the details to enroll a new
+            student</p>
+        </div>
+
+        <form id="addStudentForm">
+          <div class="form-group">
+            <label class="form-label">Student Name</label>
+            <input type="text" id="studentName" class="form-control" placeholder="Enter full name" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="studentEmail" class="form-control" placeholder="student@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Assign Batch</label>
+            <select id="studentBatch" class="form-control" required>
+              <option value="">Select Batch</option>
+              <!-- Dynamic batches -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select id="studentStatus" class="form-control">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-top: 30px;">
+            <button type="button" class="btn btn-outline" style="flex: 1; justify-content: center;"
+              onclick="window.history.back()">Cancel</button>
+            <button type="submit" class="btn btn-gradient" style="flex: 1; justify-content: center;">Add
+              Student</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div> <!-- Close main-wrapper -->
+
+  <!-- Success Modal -->
+  <div id="successModal" class="modal">
+    <div class="modal-content" style="text-align: center; max-width: 400px;">
+      <div
+        style="width: 80px; height: 80px; background: #dcfce7; color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2.5rem;">
+        <i class="fas fa-check"></i>
+      </div>
+      <h2 style="margin-bottom: 10px;">Student Added!</h2>
+      <p style="color: var(--text-muted); margin-bottom: 25px;">
+        <strong id="modalStudentName"></strong> has been successfully enrolled.<br><br>
+        <span style="display: block; background: #f3f4f6; padding: 10px; border-radius: 8px; font-size: 0.9rem;">
+          Default Password: <strong>student123</strong>
+        </span>
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button onclick="window.location.href='/admin/students'" class="btn btn-gradient"
+          style="justify-content: center;">Go to Student List</button>
+        <button onclick="location.reload()" class="btn btn-outline" style="justify-content: center;">Add Another
+          Student</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/add_student.js?v=2"></script>
+</body>
+
+</html>

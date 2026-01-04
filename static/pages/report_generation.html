@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Generation | DOZO</title>
+    <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/todo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/assets/logo.png" alt="DOZO Logo">
+        </div>
+        <div class="nav-center">
+            <h2>Report Generation</h2>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile">
+                <span id="userName" style="font-size: 0.9rem; font-weight: 600;">Admin</span>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">MAIN MENU</h3>
+            <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="/admin/tasks" class="menu-item"><i class="fa fa-tasks"></i> Tasks</a>
+            <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task
+                Review</a>
+            <a href="/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
+            <a href="/admin/students" class="menu-item"><i class="fa fa-users"></i> Students</a>
+            <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batch
+                Mgmt</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">TOOLS</h3>
+            <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
+            <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i>
+                Announcements</a>
+            <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
+                Requests</a>
+            <a href="/admin/reports" class="menu-item active"><i class="fa fa-file-pdf"></i>
+                Reports</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="content-header">
+            <div>
+                <h1>Report Center</h1>
+                <p>Generate downloadable PDF reports for student performance</p>
+            </div>
+        </div>
+
+        <div class="todo-container">
+            <div class="add-todo-section">
+                <h3>Report Details</h3>
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label>Student Name</label>
+                        <input type="text" id="student_name" placeholder="Full Name" required
+                            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; margin-bottom:1rem;">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="flex:1;">
+                            <label>Subject/Topic</label>
+                            <input type="text" id="subject" placeholder="e.g., React JS" required
+                                style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label>Overall Grade/Marks</label>
+                            <input type="text" id="marks" placeholder="e.g., 85/100" required
+                                style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:1rem;">
+                        <label>Attendance Percentage</label>
+                        <input type="text" id="attendance" placeholder="e.g., 90%"
+                            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
+                    </div>
+                    <div class="form-group" style="margin-top:1rem;">
+                        <label>Teacher Remarks</label>
+                        <textarea id="remarks" rows="3" placeholder="Performance feedback..."
+                            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;"></textarea>
+                    </div>
+                    <div class="form-row" style="justify-content:flex-end; margin-top:1.5rem;">
+                        <button type="submit" class="btn-primary"><i class="fas fa-file-pdf"></i> Generate PDF
+                            Report</button>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- Close todo-container -->
+    </div> <!-- Close main-wrapper -->
+
+    <script src="/static/js/auth.js"></script>
+    <script>
+        document.getElementById('reportForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                student_name: document.getElementById('student_name').value,
+                subject: document.getElementById('subject').value,
+                marks: document.getElementById('marks').value,
+                attendance: document.getElementById('attendance').value,
+                remarks: document.getElementById('remarks').value
+            };
+
+            const token = localStorage.getItem('access_token');
+            try {
+                const response = await fetch('/reports/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `report_${data.student_name}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                } else {
+                    alert('Failed to generate report');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>
