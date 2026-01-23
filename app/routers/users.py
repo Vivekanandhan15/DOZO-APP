@@ -44,7 +44,7 @@ def setup_initial_admin(data: UserCreate, db: Session = Depends(get_db)):
         name=data.name,
         email=data.email,
         phone=data.phone,
-        role="Admin",
+        role="ADMIN",
         password=hash_password(data.password)
     )
     db.add(new_admin)

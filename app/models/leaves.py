@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from datetime import datetime
 from app.database.database import Base
+from app.utils.timezone_utils import get_ist_now
 
 
 class Leaves(Base):
@@ -13,8 +13,9 @@ class Leaves(Base):
     reason = Column(String(255))
     date = Column(Date)
     status = Column(String(20), default="PENDING")  # PENDING, APPROVED, REJECTED
-    requested_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, onupdate=datetime.utcnow)
+    requested_at = Column(DateTime, default=get_ist_now)
+    updated_at = Column(DateTime, onupdate=get_ist_now)
+
     
     # Relationships
     student = relationship("Students")

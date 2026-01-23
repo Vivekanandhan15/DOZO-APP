@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, Date, ForeignKey, String, DateTime
-from datetime import datetime
 from app.database.database import Base
 from sqlalchemy.orm import relationship
+from app.utils.timezone_utils import get_ist_now
 
 class StaffAttendance(Base):
     __tablename__ = "staff_attendance"
@@ -11,7 +11,8 @@ class StaffAttendance(Base):
     status = Column(String(10))  # PRESENT / ABSENT
     date = Column(Date)
     marked_by = Column(Integer, ForeignKey("users.user_id")) # Admin ID
-    marked_at = Column(DateTime, default=datetime.utcnow)
+    marked_at = Column(DateTime, default=get_ist_now)
+
 
     user = relationship("Users", foreign_keys=[user_id])
     admin = relationship("Users", foreign_keys=[marked_by])

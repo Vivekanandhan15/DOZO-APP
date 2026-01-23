@@ -46,7 +46,7 @@ def create_teacher(teacher: TeacherCreate, db: Session = Depends(get_db), curren
         email=teacher.email,
         phone=teacher.phone,
         password=hash_password(teacher.password),
-        role="teacher"
+        role="TEACHER"
     )
     db.add(new_teacher)
     db.commit()
@@ -55,12 +55,12 @@ def create_teacher(teacher: TeacherCreate, db: Session = Depends(get_db), curren
 
 @router.get("/", response_model=List[TeacherResponse])
 def get_all_teachers(db: Session = Depends(get_db), current_user: Users = Depends(require_role(["ADMIN"]))):
-    teachers = db.query(Users).filter(Users.role == "teacher").all()
+    teachers = db.query(Users).filter(Users.role == "TEACHER").all()
     return teachers
 
 @router.put("/{teacher_id}", response_model=TeacherResponse)
 def update_teacher(teacher_id: int, teacher: TeacherUpdate, db: Session = Depends(get_db), current_user: Users = Depends(require_role(["ADMIN"]))):
-    db_teacher = db.query(Users).filter(Users.user_id == teacher_id, Users.role == "teacher").first()
+    db_teacher = db.query(Users).filter(Users.user_id == teacher_id, Users.role == "TEACHER").first()
     if not db_teacher:
         raise HTTPException(status_code=404, detail="Teacher not found")
 
@@ -84,7 +84,7 @@ def update_teacher(teacher_id: int, teacher: TeacherUpdate, db: Session = Depend
 
 @router.delete("/{teacher_id}")
 def delete_teacher(teacher_id: int, db: Session = Depends(get_db), current_user: Users = Depends(require_role(["ADMIN"]))):
-    db_teacher = db.query(Users).filter(Users.user_id == teacher_id, Users.role == "teacher").first()
+    db_teacher = db.query(Users).filter(Users.user_id == teacher_id, Users.role == "TEACHER").first()
     if not db_teacher:
         raise HTTPException(status_code=404, detail="Teacher not found")
     
@@ -129,11 +129,11 @@ class StaffAttendanceMark(BaseModel):
 
 # --- Teacher Self Endpoints ---
 
-@router.post("/leaves/me", dependencies=[Depends(require_role(["teacher"]))])
+@router.post("/leaves/me", dependencies=[Depends(require_role(["TEACHER"]))])
 def request_leave_me(
     data: LeaveRequestCreate, 
     db: Session = Depends(get_db), 
-    current_user: Users = Depends(require_role(["teacher"]))
+    current_user: Users = Depends(require_role(["TEACHER"]))
 ):
     new_leave = Leaves(
         teacher_id=current_user.user_id,
@@ -146,17 +146,17 @@ def request_leave_me(
     db.refresh(new_leave)
     return new_leave
 
-@router.get("/leaves/me", dependencies=[Depends(require_role(["teacher"]))])
+@router.get("/leaves/me", dependencies=[Depends(require_role(["TEACHER"]))])
 def get_my_leaves(
     db: Session = Depends(get_db), 
-    current_user: Users = Depends(require_role(["teacher"]))
+    current_user: Users = Depends(require_role(["TEACHER"]))
 ):
     return db.query(Leaves).filter(Leaves.teacher_id == current_user.user_id).order_by(Leaves.requested_at.desc()).all()
 
-@router.get("/attendance/me", dependencies=[Depends(require_role(["teacher"]))])
+@router.get("/attendance/me", dependencies=[Depends(require_role(["TEACHER"]))])
 def get_my_attendance(
     db: Session = Depends(get_db), 
-    current_user: Users = Depends(require_role(["teacher"]))
+    current_user: Users = Depends(require_role(["TEACHER"]))
 ):
     return db.query(StaffAttendance).filter(StaffAttendance.user_id == current_user.user_id).order_by(StaffAttendance.date.desc()).all()
 

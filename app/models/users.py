@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
-from datetime import datetime
 from app.database.database import Base
+from app.utils.timezone_utils import get_ist_now
 
 
 class Users(Base):
@@ -14,6 +14,7 @@ class Users(Base):
     role = Column(String(20))
     password = Column(String(255))
     address = Column(String(255))
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=get_ist_now)
+
 
     todos = relationship("Todo", back_populates="owner")

@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Body
 from fastapi.security import OAuth2PasswordRequestForm
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from typing import Optional
 from app.database.database import get_db
@@ -19,12 +20,12 @@ def login(
     Login endpoint for JSON requests (frontend).
     Accepts email and password in JSON body.
     """
-    user = db.query(Users).filter(Users.email == login_data.email).first()
+    user = db.query(Users).filter(func.lower(Users.email) == login_data.email.lower()).first()
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid credentials")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     
     if not verify_password(login_data.password, user.password):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid credentials")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     
     access_token = create_access_token(data={"sub": user.email, "user_id": user.user_id, "role": user.role})
     return {"access_token": access_token, "token_type": "bearer", "role": user.role, "user_id": user.user_id}
@@ -39,12 +40,12 @@ def login_for_swagger(
     OAuth2 compatible token endpoint for Swagger UI.
     Accepts username (email) and password as form data.
     """
-    user = db.query(Users).filter(Users.email == form_data.username).first()
+    user = db.query(Users).filter(func.lower(Users.email) == form_data.username.lower()).first()
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid credentials")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     
     if not verify_password(form_data.password, user.password):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid credentials")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     
     access_token = create_access_token(data={"sub": user.email, "user_id": user.user_id, "role": user.role})
     return {"access_token": access_token, "token_type": "bearer", "role": user.role, "user_id": user.user_id}

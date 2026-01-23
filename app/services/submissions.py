@@ -1,13 +1,13 @@
-from datetime import datetime
 from sqlalchemy.orm import Session
 from app.models.submissions import Submissions
+from app.utils.timezone_utils import get_ist_now
 
 def submit_assignment(db, student_id, data):
     s = Submissions(
         assignment_id=data.assignment_id,
         student_id=student_id,
         file_url=data.file_url,
-        submitted_at=datetime.utcnow()
+        submitted_at=get_ist_now()
     )
     db.add(s)
     db.commit()
@@ -50,8 +50,7 @@ def get_teacher_submissions(db, teacher_id):
         sub.assignment_title = title
         sub.student_name = name
         sub.batch_name = batch_name
-        # Convert UTC to IST (+5:30) for display
-        sub.submitted_at = sub.submitted_at + timedelta(hours=5, minutes=30)
+        # No conversion needed - timestamps are already in IST
         out.append(sub)
     return out
 
@@ -68,8 +67,7 @@ def get_all_submissions(db):
         sub.assignment_title = title
         sub.student_name = name
         sub.batch_name = batch_name
-        # Convert UTC to IST (+5:30) for display
-        sub.submitted_at = sub.submitted_at + timedelta(hours=5, minutes=30)
+        # No conversion needed - timestamps are already in IST
         out.append(sub)
         
     return out

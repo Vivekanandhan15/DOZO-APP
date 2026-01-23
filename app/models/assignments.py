@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, Date, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from datetime import datetime
 from app.database.database import Base
+from app.utils.timezone_utils import get_ist_now
 
 
 class Assignments(Base):
@@ -14,6 +14,7 @@ class Assignments(Base):
     description = Column(Text)
     due_date = Column(Date)
     points = Column(Integer)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=get_ist_now)
+
 
     teacher = relationship("Users")

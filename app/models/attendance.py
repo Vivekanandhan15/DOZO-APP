@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Date, ForeignKey, String, DateTime
-from datetime import datetime
 from app.database.database import Base
+from app.utils.timezone_utils import get_ist_now
 
 
 class Attendance(Base):
@@ -12,4 +12,5 @@ class Attendance(Base):
     status = Column(String(10))  # PRESENT / ABSENT
     date = Column(Date)
     marked_by = Column(Integer, ForeignKey("users.user_id"))
-    marked_at = Column(DateTime, default=datetime.utcnow)
+    marked_at = Column(DateTime, default=get_ist_now)
+

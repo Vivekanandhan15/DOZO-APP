@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from app.database.database import Base
-from datetime import datetime
+from app.utils.timezone_utils import get_ist_now
 
 class Todo(Base):
     __tablename__ = "todos"
@@ -12,7 +12,8 @@ class Todo(Base):
     priority = Column(String, default="Medium")  # High, Medium, Low
     status = Column(String, default="Pending")  # Pending, Completed
     due_date = Column(DateTime, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=get_ist_now)
+
     
     # Foreign Key to User
     user_id = Column(Integer, ForeignKey("users.user_id"))

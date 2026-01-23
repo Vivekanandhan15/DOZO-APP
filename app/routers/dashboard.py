@@ -12,12 +12,13 @@ from app.models.todo import Todo
 from app.models.announcements import Announcements
 from app.utils.auth import get_current_user, require_role
 from app.models.users import Users
+from app.utils.timezone_utils import get_ist_now
 
 router = APIRouter(prefix="/dashboard", tags=["Dashboard"])
 
 @router.get("/stats")
 def get_dashboard_stats(db: Session = Depends(get_db), current_user: Users = Depends(get_current_user)):
-    from datetime import datetime, timedelta
+    from datetime import timedelta
     from app.models.attendance import Attendance
     from app.models.submissions import Submissions
     
@@ -32,7 +33,7 @@ def get_dashboard_stats(db: Session = Depends(get_db), current_user: Users = Dep
     attendance_rate = round((present_recs / total_recs) * 100, 1) if total_recs > 0 else 0
     
     # Attendance yesterday (for change calculation)
-    yesterday = datetime.now().date() - timedelta(days=1)
+    yesterday = get_ist_now().date() - timedelta(days=1)
     yesterday_total = db.query(Attendance).filter(
         Attendance.date == yesterday
     ).count()
@@ -106,7 +107,7 @@ def get_latest_announcements(db: Session = Depends(get_db)):
 
 @router.get("/tasks/stats")
 def get_task_stats(db: Session = Depends(get_db), current_user: Users = Depends(get_current_user)):
-    from datetime import datetime, timedelta
+    from datetime import timedelta
     
     # Total active tasks
     total_tasks = db.query(Assignments).count()
@@ -115,14 +116,14 @@ def get_task_stats(db: Session = Depends(get_db), current_user: Users = Depends(
     pending_review = db.query(Submissions).filter(Submissions.grade.is_(None)).count()
     
     # Completed this month - submissions with grades from this month
-    current_month_start = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    current_month_start = get_ist_now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     completed_this_month = db.query(Submissions).filter(
         Submissions.grade.isnot(None),
         Submissions.submitted_at >= current_month_start
     ).count()
     
     # Overdue - assignments where due_date has passed
-    now = datetime.now().date()  # Convert to date for comparison
+    now = get_ist_now().date()  # Convert to date for comparison
     overdue = db.query(Assignments).filter(Assignments.due_date < now).count()
     
     return {
@@ -134,7 +135,6 @@ def get_task_stats(db: Session = Depends(get_db), current_user: Users = Depends(
 
 @router.get("/tasks/recent")
 def get_recent_tasks(db: Session = Depends(get_db), current_user: Users = Depends(get_current_user)):
-    from datetime import datetime
     from sqlalchemy import func
     
     # Get recent assignments (limit 10)
@@ -159,7 +159,7 @@ def get_recent_tasks(db: Session = Depends(get_db), current_user: Users = Depend
                 ).count()
         
         # Determine status based on due date and submission count
-        now = datetime.now().date()  # Convert to date for comparison
+        now = get_ist_now().date()  # Convert to date for comparison
         if assignment.due_date < now:
             status = "Overdue"
         elif total_submissions >= total_students and total_students > 0:
