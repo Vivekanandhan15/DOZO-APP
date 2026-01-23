@@ -545,12 +545,26 @@ function getTimeAgo(dateString) {
   const date = new Date(dateString);
   const now = new Date();
   const diffMs = now - date;
+  const diffMins = Math.floor(diffMs / (1000 * 60));
   const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
   const diffDays = Math.floor(diffHrs / 24);
 
-  if (diffDays > 0) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-  if (diffHrs > 0) return `${diffHrs} hour${diffHrs > 1 ? 's' : ''} ago`;
-  return 'Just now';
+  // For very recent (less than 1 hour), show minutes or "Just now"
+  if (diffMins < 1) return 'Just now';
+  if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+
+  // For today (less than 24 hours), show hours
+  if (diffHrs < 24) return `${diffHrs} hour${diffHrs > 1 ? 's' : ''} ago`;
+
+  // For recent days (less than 7 days), show days
+  if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+
+  // For older dates, show actual date
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+  });
 }
 
 // Create new announcement - Redirect to dedicated page

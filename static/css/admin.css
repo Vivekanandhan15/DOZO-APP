@@ -1911,7 +1911,156 @@ footer {
   margin-right: 20px;
 }
 
+
+/* ===== RESPONSIVE STYLES ===== */
+
+/* Tablet and below */
+@media (max-width: 1024px) {
+  .schedule-section {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .task-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .batch-leave-container {
+    flex-direction: column;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
+
+  /* Welcome Section */
+  .welcome-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .welcome-title {
+    font-size: 1.5rem;
+  }
+
+  .welcome-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .welcome-buttons {
+    width: 100%;
+  }
+
+  .welcome-buttons button {
+    flex: 1;
+    min-width: auto;
+  }
+
+  /* Stats Section */
+  .stats-section {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .stat-card {
+    padding: 15px;
+  }
+
+  .stat-value {
+    font-size: 1.8rem;
+  }
+
+  /* Schedule Section */
+  .schedule-left,
+  .schedule-right {
+    padding: 20px;
+  }
+
+  .schedule-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .schedule-time {
+    text-align: left;
+    width: 100%;
+  }
+
+  /* Task Management */
+  .task-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .task-card {
+    flex-direction: row;
+    gap: 15px;
+  }
+
+  .task-board-container {
+    padding: 15px;
+  }
+
+  .task-table {
+    font-size: 0.85rem;
+  }
+
+  .task-table th,
+  .task-table td {
+    padding: 10px 8px;
+  }
+
+  /* Attendance Section */
+  .attendance-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .attendance-controls {
+    width: 100%;
+  }
+
+  .attendance-mark-btn {
+    width: 100%;
+  }
+
+  .attendance-summary-section {
+    flex-direction: column;
+  }
+
+  .summary-card {
+    min-width: 100%;
+  }
+
+  /* Batch and Leave */
+  .batch-section,
+  .leave-section {
+    min-width: 100%;
+  }
+
+  /* Announcements */
+  .announcement-card {
+    padding: 15px;
+  }
+
+  .announcement-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Footer */
   .footer-container {
     flex-direction: column;
     gap: 20px;
@@ -1940,5 +2089,58 @@ footer {
   .version-info {
     order: 1;
     margin-bottom: 10px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .welcome-title {
+    font-size: 1.3rem;
+  }
+
+  .stat-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+  }
+
+  .schedule-header h2,
+  .task-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .schedule-item {
+    padding: 12px;
+  }
+
+  .action-btn {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .task-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .task-card h1 {
+    font-size: 1.5rem;
+  }
+
+  .batch-item,
+  .leave-item {
+    padding: 12px;
+  }
+
+  .announcement-card {
+    padding: 12px;
   }
 }

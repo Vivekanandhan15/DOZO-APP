@@ -33,15 +33,13 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 app = FastAPI(
     title="DOZO",
     docs_url="/docs",
-    redoc_url="/redoc",
-    openapi_url="/openapi.json",
     swagger_ui_init_oauth={
         "usePkceWithAuthorizationCodeGrant": True,
     }
 )
 
 
-# ❗ Protect DB creation in production
+#  Protect DB creation in production
 if os.getenv("ENV") != "production":
     Base.metadata.create_all(bind=engine)
 

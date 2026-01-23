@@ -1405,7 +1405,129 @@ textarea {
   }
 }
 
+
+/* ===== RESPONSIVE STYLES ===== */
+
+/* Tablet and below */
+@media (max-width: 1024px) {
+  .header {
+    padding: 10px 30px;
+  }
+
+  .nav-center {
+    gap: 20px;
+  }
+
+  .nav-right {
+    margin-right: 20px;
+  }
+
+  .task-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-3 {
+    padding: 30px 30px;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
+
+  /* Header and Navigation */
+  .header {
+    flex-direction: column;
+    padding: 10px 20px;
+    gap: 15px;
+  }
+
+  .Nav-bar {
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+  }
+
+  .nav-center {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .nav-right {
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .navcom {
+    text-align: center;
+    padding: 8px;
+  }
+
+  /* Dashboard Section */
+  .section-1 {
+    padding: 25px 20px;
+  }
+
+  .main-div {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .left-content {
+    max-width: 100%;
+  }
+
+  .left-content h2 {
+    font-size: 1.4rem;
+  }
+
+  .right-content {
+    gap: 30px;
+    margin-left: 0;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  /* Cards Section */
+  .section-3 {
+    padding: 25px 20px;
+  }
+
+  .card {
+    min-width: 100%;
+  }
+
+  /* Tasks Section */
+  .section-4 {
+    padding: 20px 15px;
+  }
+
+  .header-Tasks {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .task-filters {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+
+  .task-filters button {
+    white-space: nowrap;
+  }
+
+  .task-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .task-card {
+    padding: 15px;
+  }
+
   .horizontal-task-card {
     flex-direction: column;
     align-items: stretch;
@@ -1426,5 +1548,144 @@ textarea {
     flex-direction: row;
     justify-content: space-between;
     min-width: unset;
+  }
+
+  /* Leave Section */
+  .leave-section {
+    padding: 25px 20px;
+  }
+
+  .leave-form-container {
+    padding: 20px 15px;
+  }
+
+  /* Announcements */
+  .announcements-section {
+    padding: 25px 20px;
+  }
+
+  .announcement-card {
+    padding: 15px;
+  }
+
+  /* Attendance Section */
+  .attendance-section {
+    padding: 25px 20px;
+  }
+
+  .calendar-days {
+    gap: 5px;
+  }
+
+  .day {
+    padding: 10px 0;
+    font-size: 0.9rem;
+  }
+
+  .calendar-legend {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  /* Footer */
+  .dozo-footer {
+    padding: 30px 20px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .footer-section {
+    text-align: center;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .header {
+    padding: 10px 15px;
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .navcom {
+    font-size: 0.9rem;
+  }
+
+  .left-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .left-content p {
+    font-size: 0.9rem;
+  }
+
+  .right-content {
+    gap: 20px;
+  }
+
+  .info-box h3 {
+    font-size: 1.2rem;
+  }
+
+  .info-box p {
+    font-size: 0.8rem;
+  }
+
+  .section-4 {
+    padding: 15px 10px;
+  }
+
+  .header-Tasks h2 {
+    font-size: 1.3rem;
+  }
+
+  .task-card h3 {
+    font-size: 1rem;
+  }
+
+  .task-filters {
+    gap: 8px;
+  }
+
+  .task-filters button {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+
+  button {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+
+  .attendance-section {
+    padding: 20px 15px;
+  }
+
+  .calendar-days {
+    gap: 3px;
+  }
+
+  .day {
+    padding: 8px 0;
+    font-size: 0.8rem;
+  }
+
+  .calendar-nav button {
+    font-size: 16px;
+    padding: 3px 8px;
+  }
+
+  .leave-section {
+    padding: 20px 15px;
+  }
+
+  .announcements-section {
+    padding: 20px 15px;
   }
 }

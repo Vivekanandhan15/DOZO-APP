@@ -18,6 +18,11 @@
 <body>
   <nav class="navbar">
     <div class="nav-left">
+      <div class="hamburger" onclick="toggleSidebar()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
       <img src="/static/assets/logo.png" alt="DOZO Logo">
     </div>
     <div class="nav-center">
@@ -426,6 +431,24 @@
       </div>
     </footer>
   </div> <!-- End main-wrapper -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('active');
+    }
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function (event) {
+      const sidebar = document.querySelector('.sidebar');
+      const hamburger = document.querySelector('.hamburger');
+      const isClickInsideSidebar = sidebar.contains(event.target);
+      const isClickOnHamburger = hamburger.contains(event.target);
+
+      if (!isClickInsideSidebar && !isClickOnHamburger && sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+      }
+    });
+  </script>
   <script src="/static/js/auth.js"></script>
   <script src="/static/js/admin_page.js"></script>
 </body>
