@@ -133,6 +133,7 @@ if (passwordForm) {
   passwordForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('access_token');
+    const oldPass = document.getElementById('oldPassword').value;
     const newPass = document.getElementById('newPassword').value;
     const confirm = document.getElementById('confirmPassword').value;
 
@@ -153,7 +154,11 @@ if (passwordForm) {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ new_password: newPass })
+        body: JSON.stringify({
+          old_password: oldPass,
+          new_password: newPass,
+          confirm_password: confirm
+        })
       });
 
       if (response.ok) {

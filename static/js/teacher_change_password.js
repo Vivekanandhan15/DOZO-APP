@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        const oldPassword = document.getElementById("oldPassword").value;
         const newPassword = newPasswordInput.value;
         const confirmPassword = confirmPasswordInput.value;
 
@@ -63,7 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ new_password: newPassword })
+                body: JSON.stringify({
+                    old_password: oldPassword,
+                    new_password: newPassword,
+                    confirm_password: confirmPassword
+                })
             });
 
             if (response.ok) {

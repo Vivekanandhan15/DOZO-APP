@@ -29,6 +29,17 @@ def update_my_password(
     current_user: Users = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+    from app.utils.hashing import verify_password
+    
+    # 1. Verify old password
+    if not verify_password(data.old_password, current_user.password):
+        raise HTTPException(status_code=400, detail="Current password is incorrect")
+        
+    # 2. Verify new password confirmation
+    if data.new_password != data.confirm_password:
+        raise HTTPException(status_code=400, detail="Passwords do not match")
+        
+    # 3. Update password
     current_user.password = hash_password(data.new_password)
     db.commit()
     return {"message": "Password updated successfully"}

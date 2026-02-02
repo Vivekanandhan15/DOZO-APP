@@ -199,7 +199,7 @@ body {
 /*  SECTION 2: SCHEDULE */
 .schedule-section {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr;
   gap: 25px;
   margin-top: 30px;
 }
