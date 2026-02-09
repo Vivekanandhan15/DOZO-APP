@@ -352,3 +352,46 @@ input {
         font-size: 12px;
     }
 }
+
+/* Demo Access Styles */
+.demo-access {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.demo-access h3 {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.demo-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.demo-btn {
+    padding: 8px 15px;
+    font-size: 11px;
+    border-radius: 15px;
+    border: 1px solid #2baaff;
+    background: transparent;
+    color: #2baaff;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.demo-btn:hover {
+    background: #2baaff;
+    color: #fff;
+}

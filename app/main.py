@@ -6,11 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 import os
 
 from app.database.database import engine, Base
-from app.models import (
-    users, students, batches, enrollment,
-    assignments, submissions, attendance,
-    leaves, announcements
-)
+from app.models import (users, students, batches, enrollment,assignments, submissions, attendance,leaves, announcements)
 
 from app.routers.users import router as user_router
 from app.routers.students import router as student_router

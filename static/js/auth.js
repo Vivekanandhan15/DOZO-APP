@@ -171,3 +171,26 @@ if (signInForm) {
     }
   });
 }
+
+// Handle Demo Buttons
+document.addEventListener('DOMContentLoaded', () => {
+  const adminDemoBtn = document.getElementById('adminDemo');
+  const teacherDemoBtn = document.getElementById('teacherDemo');
+  const studentDemoBtn = document.getElementById('studentDemo');
+  const emailInput = document.getElementById('signinEmail');
+  const passwordInput = document.getElementById('signinPassword');
+  const signInForm = document.getElementById('signInForm');
+
+  if (adminDemoBtn && teacherDemoBtn && studentDemoBtn && emailInput && passwordInput && signInForm) {
+    const handleDemoLogin = (email, password) => {
+      emailInput.value = email;
+      passwordInput.value = password;
+      // Trigger the form submission
+      signInForm.dispatchEvent(new Event('submit', { cancelable: true }));
+    };
+
+    adminDemoBtn.addEventListener('click', () => handleDemoLogin('admin_demo@dozo.com', 'demo123'));
+    teacherDemoBtn.addEventListener('click', () => handleDemoLogin('teacher_demo@dozo.com', 'demo123'));
+    studentDemoBtn.addEventListener('click', () => handleDemoLogin('student_demo@dozo.com', 'demo123'));
+  }
+});

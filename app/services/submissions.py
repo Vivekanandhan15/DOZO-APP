@@ -27,9 +27,6 @@ from app.models.assignments import Assignments
 from app.models.users import Users
 
 def get_student_submissions(db, student_id):
-    # For student view, maybe they also want title? 
-    # Let's keep it simple or upgrade this too if needed. 
-    # For now, focus on Admin requirement.
     return db.query(Submissions).filter(Submissions.student_id == student_id).all()
 
 from app.models.students import Students
@@ -50,7 +47,6 @@ def get_teacher_submissions(db, teacher_id):
         sub.assignment_title = title
         sub.student_name = name
         sub.batch_name = batch_name
-        # No conversion needed - timestamps are already in IST
         out.append(sub)
     return out
 
@@ -67,7 +63,6 @@ def get_all_submissions(db):
         sub.assignment_title = title
         sub.student_name = name
         sub.batch_name = batch_name
-        # No conversion needed - timestamps are already in IST
         out.append(sub)
         
     return out
