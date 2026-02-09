@@ -22,9 +22,15 @@ if not DATABASE_URL:
         "• For Render: add it in Environment Variables"
     )
 
+engine_args = {"pool_pre_ping": True}
+
+# Neon/Render often require explicit SSL in production
+if os.getenv("ENV") == "production":
+    engine_args["connect_args"] = {"sslmode": "require"}
+
 engine = create_engine(
     DATABASE_URL,
-    pool_pre_ping=True
+    **engine_args
 )
 
 SessionLocal = sessionmaker(
