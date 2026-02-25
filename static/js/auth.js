@@ -191,6 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     adminDemoBtn.addEventListener('click', () => handleDemoLogin('admin_demo@dozo.com', 'demo123'));
     teacherDemoBtn.addEventListener('click', () => handleDemoLogin('teacher_demo@dozo.com', 'demo123'));
-    studentDemoBtn.addEventListener('click', () => handleDemoLogin('student_demo@dozo.com', 'demo123'));
+    studentDemoBtn.addEventListener('click', () => handleDemoLogin('vivek123@dozo.com', 'student123'));
   }
 });
