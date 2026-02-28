@@ -46,15 +46,8 @@ function renderLeaves(leaves) {
                     <button class="btn-reject" onclick="updateLeaveStatus(${l.leave_id}, 'REJECTED')">Reject</button>
                 </div>
             `;
-        } else if (l.status === 'PENDING_ADMIN') {
-            actionButtons = `
-                <div style="display:flex; flex-direction:column; align-items:center; gap:5px;">
-                    <span style="color:#4338ca; font-size:0.75rem; font-weight:600;">Forwarded to Admin</span>
-                    <button class="btn-reject" style="font-size:0.7rem; padding:4px 8px;" onclick="updateLeaveStatus(${l.leave_id}, 'REJECTED')">Revoke & Reject</button>
-                </div>
-            `;
         } else {
-            actionButtons = '<span style="color:#888; font-size:0.8rem;">Processed</span>';
+            actionButtons = `<span style="color:#888; font-size:0.8rem;">${l.status}</span>`;
         }
 
         row.innerHTML = `
@@ -72,9 +65,9 @@ function renderLeaves(leaves) {
 async function updateLeaveStatus(id, status) {
     let confirmMsg = '';
     if (status === 'APPROVED') {
-        confirmMsg = 'Approve this leave and forward to Admin for final confirmation?';
+        confirmMsg = 'Approve this student leave request?';
     } else if (status === 'REJECTED') {
-        confirmMsg = 'Reject this leave request?';
+        confirmMsg = 'Reject this student leave request?';
     }
 
     if (!confirm(confirmMsg)) return;

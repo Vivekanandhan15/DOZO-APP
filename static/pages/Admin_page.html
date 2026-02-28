@@ -30,8 +30,8 @@
     </div>
     <div class="nav-right">
       <div class="search-box">
-        <i class="fa fa-search"></i>
-        <input type="text" placeholder="Search...">
+        <!-- <i class="fa fa-search"></i> -->
+        <!-- <input type="text" placeholder="Search..."> -->
       </div>
       <div class="user-profile">
         <span id="nav-user-name" style="font-size: 0.9rem; font-weight: 600;">Admin</span>
@@ -271,7 +271,7 @@
         <div class="summary-card leave-summary">
           <div class="summary-icon yellow-bg"><i class="fas fa-clock"></i></div>
           <div class="summary-details">
-            <h3>Leave Requests</h3>
+            <h3>Teacher Leave Request</h3>
             <p>Awaiting approval</p>
           </div>
           <div class="summary-stats">
@@ -297,7 +297,7 @@
       <div class="leave-section">
         <div class="section-header"
           style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <h2 class="leave-section-title" style="margin: 0;">Leave Requests</h2>
+          <h2 class="leave-section-title" style="margin: 0;">Teacher Leave Request</h2>
           <a href="/admin/leave-approval" style="color: #64748b; font-size: 0.9em; text-decoration: none;">View All</a>
         </div>
         <div id="att-leave-list">
@@ -424,6 +424,62 @@
       </div>
     </footer>
   </div> <!-- End main-wrapper -->
+  <!-- Task Detail Modal -->
+  <div id="taskDetailModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2 id="detailTaskTitle">Task Details</h2>
+        <span class="close-modal" id="closeDetailModal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+          <div>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Batch</p>
+            <h3 id="detailBatchName">--</h3>
+          </div>
+          <div>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Due Date</p>
+            <h3 id="detailDueDate">--</h3>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <p id="detailDescription"
+            style="background: #f3f4f6; padding: 15px; border-radius: 8px; font-size: 0.95rem; line-height: 1.5;">--</p>
+        </div>
+        <div style="margin-top: 25px;">
+          <h4 style="margin-bottom: 15px;">Submission Overview</h4>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div style="background: #e0e7ff; padding: 15px; border-radius: 12px; text-align: center;">
+              <h1 id="detailTotalSub" style="color: #4f46e5;">0</h1>
+              <p style="font-size: 0.8rem; color: #4f46e5;">Total Submissions</p>
+            </div>
+            <div style="background: #dcfce7; padding: 15px; border-radius: 12px; text-align: center;">
+              <h1 id="detailGradedSub" style="color: #166534;">0</h1>
+              <p style="font-size: 0.8rem; color: #166534;">Graded</p>
+            </div>
+          </div>
+          <div
+            style="margin-top: 15px; background: #fff7ed; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <p id="detailSubmissionRate" style="font-weight: 600; color: #9a3412;">0% Completion</p>
+              <p style="font-size: 0.8rem; color: #9a3412;">Based on batch strength</p>
+            </div>
+            <div style="text-align: right;">
+              <h2 id="detailPendingSub" style="color: #9a3412;">0</h2>
+              <p style="font-size: 0.8rem; color: #9a3412;">Pending Review</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top: 30px; display: flex; justify-content: flex-end;">
+        <button class="btn btn-outline" id="closeDetailBtn">Close</button>
+        <a id="reviewTaskLink" href="#" class="btn btn-primary" style="margin-left: 10px; text-decoration: none;">Go to
+          Review</a>
+      </div>
+    </div>
+  </div>
+
   <script>
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');

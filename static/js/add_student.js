@@ -36,12 +36,21 @@ form.addEventListener("submit", async function (e) {
   const name = document.getElementById("studentName").value.trim();
   const email = document.getElementById("studentEmail").value.trim();
   const batchId = document.getElementById("studentBatch").value;
-  // Status logic if needed
-
-  const token = localStorage.getItem('access_token');
 
   if (!name || !email || !batchId) {
     showToast("Please fill all required fields", 'error');
+    return;
+  }
+
+  // New Validation
+  if (name.length < 2) {
+    showToast("Name must be at least 2 characters", 'error');
+    return;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    showToast("Please enter a valid email address", 'error');
     return;
   }
 

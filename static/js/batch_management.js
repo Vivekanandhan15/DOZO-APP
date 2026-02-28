@@ -225,6 +225,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     fetchBatches();
     loadTeachers();
+
+    // Search Listener
+    const searchInput = document.getElementById('batchSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const term = searchInput.value.toLowerCase();
+            const rows = document.querySelectorAll('#batchesTableBody tr');
+            rows.forEach(row => {
+                const batchName = row.cells[0]?.textContent.toLowerCase() || '';
+                const teacherName = row.cells[1]?.textContent.toLowerCase() || '';
+                if (batchName.includes(term) || teacherName.includes(term)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
 });
 
 // Toast Notification Helper

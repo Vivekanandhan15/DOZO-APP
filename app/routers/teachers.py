@@ -9,28 +9,13 @@ from pydantic import BaseModel
 
 router = APIRouter(prefix="/teachers", tags=["Teachers"])
 
-# --- Schemas ---
-class TeacherCreate(BaseModel):
-    name: str
-    email: str
-    password: str
-    phone: str = ""
-
-class TeacherUpdate(BaseModel):
-    name: str | None = None
-    email: str | None = None
-    phone: str | None = None
-    password: str | None = None
-
-class TeacherResponse(BaseModel):
-    user_id: int
-    name: str
-    email: str
-    phone: str
-    role: str
-
-    class Config:
-        from_attributes = True
+from app.schemas.teachers import (
+    TeacherCreate, 
+    TeacherUpdate, 
+    TeacherResponse,
+    LeaveRequestCreate,
+    StaffAttendanceMark
+)
 
 # --- Endpoints ---
 
@@ -116,16 +101,6 @@ def delete_teacher(teacher_id: int, db: Session = Depends(get_db), current_user:
 from app.models.leaves import Leaves
 from app.models.staff_attendance import StaffAttendance
 from datetime import date
-
-# --- Additional Schemas ---
-class LeaveRequestCreate(BaseModel):
-    reason: str
-    date: date
-
-class StaffAttendanceMark(BaseModel):
-    user_id: int
-    status: str
-    date: date
 
 # --- Teacher Self Endpoints ---
 

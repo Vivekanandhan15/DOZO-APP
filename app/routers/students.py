@@ -102,3 +102,43 @@ def remove_student(student_id: int, db: Session = Depends(get_db)):
     if not delete_student(db, student_id):
         raise HTTPException(status_code=404, detail="Student not found")
     return {"message": "Student deleted"}
+
+# 📊 Get Student Stats for Report Generation
+@router.get("/{student_id}/report-stats", dependencies=[Depends(require_role(["ADMIN", "TEACHER"]))])
+def get_student_report_stats(student_id: int, db: Session = Depends(get_db)):
+    from app.models.attendance import Attendance
+    from app.models.submissions import Submissions
+    from app.models.assignments import Assignments
+    from sqlalchemy import func, extract
+    from datetime import datetime
+    
+    now = datetime.now()
+    
+    # 1. Attendance Rate (Current Month)
+    query = db.query(Attendance).filter(
+        Attendance.student_id == student_id,
+        extract('month', Attendance.date) == now.month,
+        extract('year', Attendance.date) == now.year
+    )
+    total_days = query.count()
+    present_days = query.filter(Attendance.status == "PRESENT").count()
+    attendance_rate = round((present_days / total_days) * 100, 1) if total_days > 0 else 0
+    
+  
+    recent_submissions = db.query(Submissions, Assignments.title)\
+        .join(Assignments, Submissions.assignment_id == Assignments.assignment_id)\
+        .filter(Submissions.student_id == student_id, Submissions.grade.isnot(None))\
+        .order_by(Submissions.submitted_at.desc())\
+        .limit(5).all()
+        
+    subject_stats = []
+    for sub, title in recent_submissions:
+        subject_stats.append({
+            "name": title,
+            "marks": f"{sub.grade}/100" # Assuming 100 for now 
+        })
+        
+    return {
+        "attendance": f"{attendance_rate}%",
+        "subjects": subject_stats
+    }

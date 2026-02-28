@@ -1,15 +1,15 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import date, datetime
 
 class AnnouncementCreate(BaseModel):
-    title: str
-    content: str
+    title: str = Field(..., min_length=3, max_length=100)
+    content: str = Field(..., min_length=3, max_length=2000)
     expiry_date: date
-    batch_id: int | None = None  # None means for all students
+    batch_id: int | None = Field(None, gt=0)  # None means for all students
 
 class AnnouncementUpdate(BaseModel):
-    title: str
-    content: str
+    title: str = Field(..., min_length=3, max_length=100)
+    content: str = Field(..., min_length=3, max_length=2000)
     expiry_date: date
 
 class AnnouncementOut(BaseModel):

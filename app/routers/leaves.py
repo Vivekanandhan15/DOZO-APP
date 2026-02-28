@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from app.database.database import get_db
 from app.utils.auth import require_role, get_current_user
 from app.services.leaves import apply_leave, update_leave, get_student_leaves, get_all_leaves
@@ -11,6 +11,7 @@ from app.services.students import get_student_by_user
 
 from app.models.users import Users
 from app.models.leaves import Leaves
+from app.models.students import Students
 
 # ... imports ...
 
@@ -63,16 +64,15 @@ def approve_or_reject(leave_id: int, data: LeaveUpdate,
         if leave.date < date.today():
             raise HTTPException(status_code=400, detail="Cannot approve/reject past leaves.")
 
-        if new_status == "APPROVED":
-            # Teacher approval -> goes to Pending Admin
-            leave.status = "PENDING_ADMIN"
-        elif new_status == "REJECTED":
-            leave.status = "REJECTED"
+        if new_status in ["APPROVED", "REJECTED"]:
+            # If it's a student leave, teacher has final authority now
+            # If it's a teacher's own leave (unlikely to hit this here but for safety), logic might differ
+            leave.status = new_status
         else:
             raise HTTPException(status_code=400, detail="Invalid status")
     
     elif user_role == "ADMIN":
-        # Admin can do anything, usually finalizes
+        # Admin handles staff/teacher leaves (student_id is NULL)
         if new_status in ["APPROVED", "REJECTED"]:
             leave.status = new_status
         else:
@@ -94,7 +94,10 @@ def reject_leave(leave_id: int, user: Users = Depends(get_current_user), db: Ses
     return approve_or_reject(leave_id, LeaveUpdate(status="REJECTED"), user, db)
 
 
-# Admin view all
+# Admin view all - Filtered to STAFF/TEACHER leaves only
 @router.get("/", dependencies=[Depends(require_role(["ADMIN"]))], response_model=list[LeaveOut])
 def view_all(db: Session = Depends(get_db)):
-    return get_all_leaves(db)
+    # Admin only sees leaves where student_id is NULL (Teacher/Staff leaves)
+    return db.query(Leaves).options(
+        joinedload(Leaves.student).joinedload(Students.user)
+    ).filter(Leaves.student_id == None).all()

@@ -695,16 +695,70 @@ function renderRecentTasks(tasks) {
             ${task.status}
           </span>
         </td>
+        <td>
+          <button class="action-btn" onclick="viewTask(${task.assignment_id})" title="View Details">
+            <i class="fas fa-eye" style="color: var(--primary-color);"></i>
+          </button>
+        </td>
       </tr>
     `;
   }).join('');
 }
 
-// View task details (placeholder function)
-window.viewTask = function (taskId) {
-  // TODO: Implement task detail view
-  showToast(`Viewing task ${taskId}. Detail view coming soon!`, 'info');
+// View task details
+window.viewTask = async function (taskId) {
+  try {
+    const res = await fetch(`/assignments/${taskId}/detail`, {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+
+      // Populate Modal
+      $('#detailTaskTitle').textContent = data.title;
+      $('#detailBatchName').textContent = data.batch_name;
+      $('#detailDueDate').textContent = new Date(data.due_date).toLocaleDateString('en-US', {
+        month: 'long', day: 'numeric', year: 'numeric'
+      });
+      $('#detailDescription').textContent = data.description || 'No description provided.';
+
+      $('#detailTotalSub').textContent = data.submission_stats.total;
+      $('#detailGradedSub').textContent = data.submission_stats.graded;
+      $('#detailPendingSub').textContent = data.submission_stats.ungraded;
+
+      const rate = data.submission_stats.expected > 0
+        ? Math.round((data.submission_stats.total / data.submission_stats.expected) * 100)
+        : 0;
+      $('#detailSubmissionRate').textContent = `${rate}% Completion`;
+
+      $('#reviewTaskLink').href = `/admin/task-review?assignment_id=${taskId}`;
+
+      $('#taskDetailModal').classList.add('active');
+    } else {
+      showToast('Failed to load task details', 'error');
+    }
+  } catch (err) {
+    console.error("Error viewing task:", err);
+    showToast('Network error', 'error');
+  }
 };
+
+// Modal Close Listeners
+document.addEventListener('DOMContentLoaded', () => {
+  const closeBtn = $('#closeDetailModal');
+  const closeBtnFooter = $('#closeDetailBtn');
+  const modal = $('#taskDetailModal');
+
+  if (closeBtn) closeBtn.onclick = () => modal.classList.remove('active');
+  if (closeBtnFooter) closeBtnFooter.onclick = () => modal.classList.remove('active');
+
+  window.onclick = (event) => {
+    if (event.target == modal) {
+      modal.classList.remove('active');
+    }
+  }
+});
 
 // Initial logout function was here - now handled by auth.js helper
 window.logout = window.logout || function () {

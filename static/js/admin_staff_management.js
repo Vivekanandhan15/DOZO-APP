@@ -8,6 +8,25 @@ document.addEventListener('DOMContentLoaded', () => {
     dateInput.valueAsDate = new Date();
 
     dateInput.addEventListener('change', loadStaffList);
+
+    // Search Listener
+    const searchInput = document.getElementById('staffSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const term = searchInput.value.toLowerCase();
+            const rows = document.querySelectorAll('#staff-list tr');
+            rows.forEach(row => {
+                const name = row.cells[0]?.textContent.toLowerCase() || '';
+                const email = row.cells[1]?.textContent.toLowerCase() || '';
+                if (name.includes(term) || email.includes(term)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+
     loadStaffList();
     loadStaffLeaves();
 });

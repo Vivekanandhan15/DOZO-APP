@@ -116,6 +116,10 @@ def teacher_leaves_page(request: Request):
 def teacher_student_leaves_page(request: Request):
     return templates.TemplateResponse("pages/teacher_student_leaves.html", {"request": request})
 
+@app.get("/teacher/reports", response_class=HTMLResponse)
+def teacher_reports_page(request: Request):
+    return templates.TemplateResponse("pages/teacher_report_generation.html", {"request": request})
+
 @app.get("/teacher/announcements", response_class=HTMLResponse)
 def teacher_announcements_page(request: Request):
     return templates.TemplateResponse("pages/teacher_announcements.html", {"request": request})

@@ -188,12 +188,42 @@ editForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const taskId = document.getElementById('editTaskId').value;
+    const title = document.getElementById('editTitle').value.trim();
+    const description = document.getElementById('editDescription').value.trim();
+    const batch_id = parseInt(document.getElementById('editBatch').value);
+    const due_date = document.getElementById('editDueDate').value;
+    const points = parseInt(document.getElementById('editPoints').value) || 100;
+
+    // Validation
+    if (!title || !due_date || !batch_id) {
+        showToast("Please fill all required fields", 'error');
+        return;
+    }
+
+    if (title.length < 3) {
+        showToast("Title must be at least 3 characters", 'error');
+        return;
+    }
+
+    const selectedDate = new Date(due_date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (selectedDate < today) {
+        showToast("Due date cannot be in the past", 'error');
+        return;
+    }
+
+    if (points < 0) {
+        showToast("Points must be a positive number", 'error');
+        return;
+    }
+
     const data = {
-        title: document.getElementById('editTitle').value,
-        description: document.getElementById('editDescription').value,
-        batch_id: parseInt(document.getElementById('editBatch').value),
-        due_date: document.getElementById('editDueDate').value,
-        points: parseInt(document.getElementById('editPoints').value) || 100
+        title: title,
+        description: description,
+        batch_id: batch_id,
+        due_date: due_date,
+        points: points
     };
 
     try {

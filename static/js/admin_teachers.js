@@ -9,6 +9,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadTeachers();
 
+    // Search Listener
+    const searchInput = document.getElementById('teacherSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const term = searchInput.value.toLowerCase();
+            const rows = document.querySelectorAll('#teacherTableBody tr');
+            rows.forEach(row => {
+                const name = row.cells[0]?.textContent.toLowerCase() || '';
+                const email = row.cells[1]?.textContent.toLowerCase() || '';
+                if (name.includes(term) || email.includes(term)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+
     // Modal Logic
     const modal = document.getElementById('teacherModal');
     const addBtn = document.getElementById('addTeacherBtn');
@@ -123,6 +141,7 @@ function openModal(id = null, name = '', email = '', phone = '') {
     const phoneInput = document.getElementById('teacherPhone');
     const passGroup = document.getElementById('passwordGroup');
     const passInput = document.getElementById('teacherPassword');
+    const passLabel = passGroup.querySelector('.form-label');
 
     idInput.value = id || '';
     nameInput.value = name;
@@ -131,14 +150,15 @@ function openModal(id = null, name = '', email = '', phone = '') {
 
     if (id) {
         title.textContent = 'Edit Teacher';
-        passGroup.style.display = 'none'; // Don't require password on edit for now
+        passGroup.style.display = 'none';
         passInput.required = false;
     } else {
         title.textContent = 'Add New Teacher';
         passGroup.style.display = 'block';
+        passLabel.textContent = 'Password';
         passInput.required = true;
-        passInput.value = '';
     }
+    passInput.value = '';
 
     modal.classList.add('active');
 }
@@ -154,13 +174,19 @@ async function saveTeacher() {
     const phone = document.getElementById('teacherPhone').value;
     const password = document.getElementById('teacherPassword').value;
 
+    const saveBtn = document.querySelector('#teacherForm button[type="submit"]');
+    const originalBtnText = saveBtn.textContent;
+
     const data = { name, email, phone };
-    if (!id) data.password = password; // Only send password on create
+    if (!id && password) data.password = password;
 
     const method = id ? 'PUT' : 'POST';
     const url = id ? `/teachers/${id}` : '/teachers/';
 
     try {
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
         const token = localStorage.getItem('access_token');
         const res = await fetch(url, {
             method: method,
@@ -177,11 +203,14 @@ async function saveTeacher() {
             loadTeachers();
         } else {
             const err = await res.json();
-            showToast(`Error: ${err.detail}`, 'error');
+            showToast(`Error: ${err.detail || 'Failed to save'}`, 'error');
         }
     } catch (e) {
         console.error(e);
         showToast('Network error', 'error');
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = originalBtnText;
     }
 }
 

@@ -4,11 +4,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Generation | DOZO</title>
+    <title>Report Center | DOZO</title>
     <link rel="shortcut icon" href="/static/assets/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/layout.css">
-    <link rel="stylesheet" href="/static/css/todo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: #f8fafc;
+        }
+
+        .main-wrapper {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .report-header {
+            background: var(--primary-gradient);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        .report-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .report-card {
+            background: var(--glass-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: #6366f1;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 0.75rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: inherit;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .subjects-container {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .subject-row {
+            display: grid;
+            grid-template-columns: 1fr 150px;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .subject-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .btn-generate {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn-generate:active {
+            transform: translateY(0);
+        }
+
+        /* Sidebar & Nav fixes for layout.css conflict */
+        .sidebar {
+            z-index: 100;
+        }
+
+        .navbar {
+            z-index: 101;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,12 +163,12 @@
             <img src="/static/assets/logo.png" alt="DOZO Logo">
         </div>
         <div class="nav-center">
-            <h2>Report Generation</h2>
+            <h2>Academic Management</h2>
         </div>
         <div class="nav-right">
             <div class="user-profile">
                 <span id="userName" style="font-size: 0.9rem; font-weight: 600;">Admin</span>
-                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                <i class="fa fa-user-circle" style="font-size: 1.5rem; color: #6366f1;"></i>
             </div>
         </div>
     </nav>
@@ -32,87 +178,159 @@
             <h3 class="sidebar-title">MAIN MENU</h3>
             <a href="/admin" class="menu-item"><i class="fa fa-chart-line"></i> Dashboard</a>
             <a href="/admin/tasks" class="menu-item"><i class="fa fa-tasks"></i> Tasks</a>
-            <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task
-                Review</a>
+            <a href="/admin/task-review" class="menu-item"><i class="fa fa-check-double"></i> Task Review</a>
             <a href="/attendance" class="menu-item"><i class="fa fa-calendar-check"></i> Attendance</a>
             <a href="/admin/students" class="menu-item"><i class="fa fa-users"></i> Students</a>
-            <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batch
-                Mgmt</a>
+            <a href="/admin/batches" class="menu-item"><i class="fa fa-layer-group"></i> Batch Mgmt</a>
         </div>
         <div class="sidebar-section">
             <h3 class="sidebar-title">TOOLS</h3>
             <a href="/admin/todo" class="menu-item"><i class="fa fa-list-ul"></i> Todo List</a>
-            <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i>
-                Announcements</a>
+            <a href="/admin/announcements" class="menu-item"><i class="fa fa-bullhorn"></i> Announcements</a>
             <a href="/admin/leave-approval" class="menu-item"><i class="fa fa-envelope-open-text"></i> Leave
                 Requests</a>
-            <a href="/admin/reports" class="menu-item active"><i class="fa fa-file-pdf"></i>
-                Reports</a>
+            <a href="/admin/reports" class="menu-item active"><i class="fa fa-file-pdf"></i> Reports</a>
         </div>
     </aside>
 
     <div class="main-wrapper">
-        <div class="content-header">
-            <div>
-                <h1>Report Center</h1>
-                <p>Generate downloadable PDF reports for student performance</p>
-            </div>
+        <div class="report-header">
+            <h1>DOZO Report Center</h1>
+            <p>Generate high-fidelity academic progress reports effortlessly.</p>
         </div>
 
-        <div class="todo-container">
-            <div class="add-todo-section">
-                <h3>Report Details</h3>
-                <form id="reportForm">
-                    <div class="form-group">
-                        <label>Student Name</label>
-                        <input type="text" id="student_name" placeholder="Full Name" required
-                            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; margin-bottom:1rem;">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label>Subject/Topic</label>
-                            <input type="text" id="subject" placeholder="e.g., React JS" required
-                                style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label>Overall Grade/Marks</label>
-                            <input type="text" id="marks" placeholder="e.g., 85/100" required
-                                style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
-                        </div>
-                    </div>
-                    <div class="form-group" style="margin-top:1rem;">
-                        <label>Attendance Percentage</label>
-                        <input type="text" id="attendance" placeholder="e.g., 90%"
-                            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
-                    </div>
-                    <div class="form-group" style="margin-top:1rem;">
-                        <label>Teacher Remarks</label>
-                        <textarea id="remarks" rows="3" placeholder="Performance feedback..."
-                            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;"></textarea>
-                    </div>
-                    <div class="form-row" style="justify-content:flex-end; margin-top:1.5rem;">
-                        <button type="submit" class="btn-primary"><i class="fas fa-file-pdf"></i> Generate PDF
-                            Report</button>
-                    </div>
-                </form>
+        <form id="reportForm" class="report-card">
+            <div class="section-title">
+                <i class="fas fa-user-graduate"></i>
+                Student Information
             </div>
-        </div> <!-- Close todo-container -->
-    </div> <!-- Close main-wrapper -->
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Select Student</label>
+                    <select id="student_select" required>
+                        <option value="">-- Choose Student --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Attendance Percentage</label>
+                    <input type="text" id="attendance" placeholder="e.g., 94%" required>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <i class="fas fa-book"></i>
+                Subject Performance
+                <button type="button" id="clearStatsBtn"
+                    style="margin-left: auto; font-size: 0.8rem; background: none; border: 1px solid #ccc; padding: 4px 8px; border-radius: 6px; cursor: pointer;">Clear
+                    Stats</button>
+            </div>
+            <div class="subjects-container" id="subjectsContainer">
+                <!-- Dynamic rows -->
+            </div>
+
+            <div class="section-title">
+                <i class="fas fa-comment-alt"></i>
+                Academic Remarks
+            </div>
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <textarea id="remarks" rows="4" placeholder="Provide detailed performance feedback..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-generate">
+                <i class="fas fa-cloud-download-alt"></i>
+                Generate Signature Report
+            </button>
+        </form>
+    </div>
 
     <script src="/static/js/auth.js"></script>
     <script>
+        const studentSelect = document.getElementById('student_select');
+        const subjectsContainer = document.getElementById('subjectsContainer');
+        const attendanceInput = document.getElementById('attendance');
+        const token = localStorage.getItem('access_token');
+
+        // 1. Initialize Subject Rows
+        function initSubjectRows(data = []) {
+            subjectsContainer.innerHTML = '';
+            const rowCount = Math.max(data.length, 5);
+            for (let i = 0; i < rowCount; i++) {
+                const row = document.createElement('div');
+                row.className = 'subject-row';
+                row.innerHTML = `
+                    <input type="text" class="subject-name" placeholder="Subject Name" value="${data[i]?.name || ''}">
+                    <input type="text" class="subject-marks" placeholder="Marks" value="${data[i]?.marks || ''}">
+                `;
+                subjectsContainer.appendChild(row);
+            }
+        }
+
+        // 2. Load Students
+        async function loadStudents() {
+            try {
+                const res = await fetch('/students/', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const students = await res.json();
+                    studentSelect.innerHTML = '<option value="">-- Choose Student --</option>';
+                    students.forEach(s => {
+                        const opt = document.createElement('option');
+                        opt.value = s.student_id;
+                        opt.textContent = `${s.user.name} (${s.roll_no})`;
+                        studentSelect.appendChild(opt);
+                    });
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        // 3. Fetch Student Stats
+        studentSelect.addEventListener('change', async () => {
+            const studentId = studentSelect.value;
+            if (!studentId) return;
+
+            try {
+                const res = await fetch(`/students/${studentId}/report-stats`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const stats = await res.json();
+                    attendanceInput.value = stats.attendance;
+                    initSubjectRows(stats.subjects);
+                }
+            } catch (err) { console.error(err); }
+        });
+
+        document.getElementById('clearStatsBtn').onclick = () => initSubjectRows();
+
+        // 4. Submit Report
         document.getElementById('reportForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            const subjects = [];
+            const rows = document.querySelectorAll('.subject-row');
+            rows.forEach(row => {
+                const name = row.querySelector('.subject-name').value;
+                const marks = row.querySelector('.subject-marks').value;
+                if (name && marks) {
+                    subjects.push({ name, marks });
+                }
+            });
+
             const data = {
-                student_name: document.getElementById('student_name').value,
-                subject: document.getElementById('subject').value,
-                marks: document.getElementById('marks').value,
-                attendance: document.getElementById('attendance').value,
-                remarks: document.getElementById('remarks').value
+                student_name: studentSelect.options[studentSelect.selectedIndex].text.split(' (')[0],
+                attendance: attendanceInput.value,
+                remarks: document.getElementById('remarks').value,
+                subjects: subjects
             };
 
-            const token = localStorage.getItem('access_token');
+            const btn = e.target.querySelector('.btn-generate');
+            const originalText = btn.innerHTML;
+
             try {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+                btn.disabled = true;
+
                 const response = await fetch('/reports/generate', {
                     method: 'POST',
                     headers: {
@@ -127,17 +345,29 @@
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `report_${data.student_name}.pdf`;
+                    a.download = `Report_${data.student_name.replace(/\s+/g, '_')}.pdf`;
                     document.body.appendChild(a);
                     a.click();
-                    a.remove();
+                    setTimeout(() => {
+                        window.URL.revokeObjectURL(url);
+                        a.remove();
+                    }, 100);
                 } else {
-                    alert('Failed to generate report');
+                    const error = await response.json();
+                    alert('Error: ' + (error.detail || 'Failed to generate report'));
                 }
             } catch (error) {
                 console.error('Error:', error);
+                alert('An unexpected error occurred.');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             }
         });
+
+        // Start
+        loadStudents();
+        initSubjectRows();
     </script>
 </body>
 

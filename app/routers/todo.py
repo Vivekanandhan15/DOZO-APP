@@ -36,17 +36,20 @@ def get_todos(
 ):
     query = db.query(Todo).filter(Todo.user_id == current_user.user_id)
     
-    if status:
-        query = query.filter(Todo.status == status)
-    if priority:
-        query = query.filter(Todo.priority == priority)
-        
-    # Sort by priority (High > Medium > Low) and due_date
-    # Note: Sorting by string "High" vs "Medium" might not be alphabetical correct order for priority
-    # Custom sort might be needed but for now simple return.
-    # Ideally use Enum or Integer for priority.
+    from sqlalchemy import case
     
-    return query.offset(skip).limit(limit).all()
+    # Custom sort by priority (High > Medium > Low)
+    priority_order = case(
+        {
+            "High": 1,
+            "Medium": 2,
+            "Low": 3
+        },
+        value=Todo.priority,
+        else_=4
+    )
+    
+    return query.order_by(priority_order, Todo.due_date.asc()).offset(skip).limit(limit).all()
 
 @router.get("/{todo_id}", response_model=TodoResponse)
 def get_todo(

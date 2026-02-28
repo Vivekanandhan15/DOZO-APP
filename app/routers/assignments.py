@@ -63,6 +63,40 @@ def get_assignment(assignment_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Assignment not found")
     return assignment
 
+# Get assignment detail with stats
+@router.get("/{assignment_id}/detail", dependencies=[Depends(require_role(["ADMIN", "TEACHER"]))])
+def get_assignment_detail(assignment_id: int, db: Session = Depends(get_db)):
+    from app.models.submissions import Submissions
+    from app.models.enrollment import Enrollment
+    from app.models.batches import Batches
+    
+    assignment = db.query(Assignments).filter(Assignments.assignment_id == assignment_id).first()
+    if not assignment:
+        raise HTTPException(status_code=404, detail="Assignment not found")
+        
+    # Stats
+    total_submissions = db.query(Submissions).filter(Submissions.assignment_id == assignment_id).count()
+    graded_submissions = db.query(Submissions).filter(Submissions.assignment_id == assignment_id, Submissions.grade.isnot(None)).count()
+    
+    # Batch info
+    batch = db.query(Batches).filter(Batches.batch_id == assignment.batch_id).first()
+    student_count = db.query(Enrollment).filter(Enrollment.batch_id == assignment.batch_id).count()
+    
+    return {
+        "assignment_id": assignment.assignment_id,
+        "title": assignment.title,
+        "description": assignment.description,
+        "due_date": assignment.due_date,
+        "points": assignment.points,
+        "batch_name": batch.name if batch else "Unknown",
+        "submission_stats": {
+            "total": total_submissions,
+            "graded": graded_submissions,
+            "ungraded": total_submissions - graded_submissions,
+            "expected": student_count
+        }
+    }
+
 # Update assignment
 @router.put("/{assignment_id}", dependencies=[Depends(require_role(["ADMIN", "TEACHER"]))])
 def update_assignment(assignment_id: int, data: AssignmentCreate, 

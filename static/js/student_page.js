@@ -238,8 +238,22 @@ if (leaveForm) {
     const reason = document.getElementById("leaveReason").value;
     const token = localStorage.getItem('access_token');
 
+    const inputDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
     if (!date || !reason) {
       alert("Please fill all fields");
+      return;
+    }
+
+    if (inputDate < today) {
+      alert("Leave date cannot be in the past");
+      return;
+    }
+
+    if (reason.trim().length < 10) {
+      alert("Reason must be at least 10 characters long");
       return;
     }
 

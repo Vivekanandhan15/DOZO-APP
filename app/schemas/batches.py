@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import date
 
 class BatchCreate(BaseModel):
-    name: str
-    teacher_id: int
+    name: str = Field(..., min_length=2, max_length=100)
+    teacher_id: int = Field(..., gt=0)
     start_date: date
     end_date: date
 

@@ -11,6 +11,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const date = document.getElementById('leave-date').value;
         const reason = document.getElementById('leave-reason').value;
 
+        if (!date || !reason) {
+            alert('Please fill all fields');
+            return;
+        }
+
+        const inputDate = new Date(date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (inputDate < today) {
+            alert('Leave date cannot be in the past');
+            return;
+        }
+
+        if (reason.trim().length < 10) {
+            alert('Reason must be at least 10 characters long');
+            return;
+        }
+
         try {
             const res = await fetch('/teachers/leaves/me', {
                 method: 'POST',

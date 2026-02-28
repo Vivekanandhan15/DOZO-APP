@@ -33,29 +33,34 @@ def get_dashboard_stats(db: Session = Depends(get_db), current_user: Users = Dep
     attendance_rate = round((present_recs / total_recs) * 100, 1) if total_recs > 0 else 0
     
     # Attendance yesterday (for change calculation)
-    yesterday = get_ist_now().date() - timedelta(days=1)
-    yesterday_total = db.query(Attendance).filter(
-        Attendance.date == yesterday
-    ).count()
-    yesterday_present = db.query(Attendance).filter(
-        Attendance.date == yesterday,
-        Attendance.status == "PRESENT"
-    ).count()
+    now = get_ist_now()
+    yesterday_date = now.date() - timedelta(days=1)
+    yesterday_total = db.query(Attendance).filter(Attendance.date == yesterday_date).count()
+    yesterday_present = db.query(Attendance).filter(Attendance.date == yesterday_date, Attendance.status == "PRESENT").count()
     yesterday_rate = round((yesterday_present / yesterday_total) * 100, 1) if yesterday_total > 0 else attendance_rate
     attendance_change = round(attendance_rate - yesterday_rate, 1)
     
-    # Tasks change (comparing to last week) - simplified as +12 for demo
-    tasks_change = 12  # TODO: Calculate actual week-over-week change
+    # Tasks change (comparing last 7 days vs previous 7 days)
+    last_week_start = now - timedelta(days=7)
+    prev_week_start = now - timedelta(days=14)
+    
+    current_tasks = db.query(Assignments).filter(Assignments.created_at >= last_week_start).count()
+    prev_tasks = db.query(Assignments).filter(Assignments.created_at >= prev_week_start, Assignments.created_at < last_week_start).count()
+    
+    if prev_tasks > 0:
+        tasks_change = round(((current_tasks - prev_tasks) / prev_tasks) * 100, 1)
+    else:
+        tasks_change = 100.0 if current_tasks > 0 else 0.0
     
     # Average Performance (from submissions)
-    submissions_with_grades = db.query(Submissions).filter(Submissions.grade.isnot(None)).all()
-    if submissions_with_grades:
-        avg_performance = round(sum(s.grade for s in submissions_with_grades) / len(submissions_with_grades), 1)
-    else:
-        avg_performance = 0
+    from sqlalchemy import func
+    avg_perf_query = db.query(func.avg(Submissions.grade)).filter(Submissions.grade.isnot(None))
+    avg_performance = round(float(avg_perf_query.scalar() or 0), 1)
     
-    # Performance change - simplified
-    performance_change = -2  # TODO: Calculate actual change from previous period
+    # Performance change (comparing last 7 days vs previous 7 days)
+    current_avg = avg_perf_query.filter(Submissions.submitted_at >= last_week_start).scalar() or 0
+    prev_avg = avg_perf_query.filter(Submissions.submitted_at >= prev_week_start, Submissions.submitted_at < last_week_start).scalar() or 0
+    performance_change = round(float(current_avg) - float(prev_avg), 1)
     
     # Pending reviews count (submissions without grades)
     pending_reviews = db.query(Submissions).filter(Submissions.grade.is_(None)).count()

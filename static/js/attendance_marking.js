@@ -148,21 +148,38 @@ function renderStudentList(enrollments, attendanceRecords = []) {
     const div = document.createElement('div');
     div.className = 'student-item' + (isMarked ? ' already-marked' : '');
     div.dataset.studentId = sId;
-    if (isMarked) {
-      div.style.background = '#f8fafc';
-      div.style.opacity = '0.8';
-    }
 
     const presentId = `status_${sId}_present`;
     const absentId = `status_${sId}_absent`;
 
-    // Disable if marked and is teacher (as per backend logic where teachers can't update)
-    const isDisabled = isMarked && role === 'TEACHER';
+    // Teacher Flexibility: Can edit if date is within last 7 days
+    const dateInput = document.getElementById('attendance-date');
+    const selectedDate = new Date(dateInput.value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffDays = (today - selectedDate) / (1000 * 60 * 60 * 24);
+
+    let isDisabled = false;
+    if (role === 'TEACHER') {
+      if (diffDays > 7) {
+        isDisabled = true; // Still locked for very old dates
+      } else if (diffDays < 0) {
+        isDisabled = true; // Cannot mark future attendance
+      }
+    }
+
+    if (isMarked && !isDisabled) {
+      div.style.background = '#f0fdf4'; // Light green for marked but editable
+      div.style.borderLeft = '4px solid #10b981';
+    } else if (isMarked && isDisabled) {
+      div.style.background = '#f8fafc';
+      div.style.opacity = '0.7';
+    }
 
     div.innerHTML = `
                 <div class="student-name-col">
                     <span>${index + 1}. ${name}</span>
-                    ${isMarked ? '<span style="font-size: 10px; color: #10b981; margin-left: 10px;">(Already Marked)</span>' : ''}
+                    ${isMarked ? '<span style="font-size: 10px; color: #10b981; margin-left: 10px;">(Marked)</span>' : ''}
                 </div>
                 <div class="status-col status-controls">
                     <div class="radio-option">
@@ -198,18 +215,28 @@ if (form) {
       return;
     }
 
-    // Only mark students who ARE NOT already marked OR if we are Admin (who can update)
+    // Determine which rows to mark
+    const selectedDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffDays = (today - selectedDate) / (1000 * 60 * 60 * 24);
+
+    // Allow marking if it's Admin OR (Teacher and within 7 days)
+    const canEdit = role === 'ADMIN' || (role === 'TEACHER' && diffDays >= 0 && diffDays <= 7);
+
     const students = document.querySelectorAll('.student-item');
     const toMark = [];
 
     students.forEach(item => {
-      if (role === 'ADMIN' || !item.classList.contains('already-marked')) {
+      // If we can edit, we take all students (to support updates)
+      // Otherwise, we take only those NOT already marked
+      if (canEdit || !item.classList.contains('already-marked')) {
         toMark.push(item);
       }
     });
 
     if (toMark.length === 0) {
-      showToast("No new records to save", 'info');
+      showToast("No editable records found", 'info');
       return;
     }
 

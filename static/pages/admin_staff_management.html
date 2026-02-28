@@ -41,14 +41,23 @@
     <div class="main-wrapper">
         <div class="tabs" style="display: flex; gap: 20px; margin-bottom: 25px;">
             <button class="tab-button active" data-tab="attendance-tab">Attendance Marking</button>
-            <button class="tab-button" data-tab="leaves-tab">Staff Leave Requests</button>
+            <button class="tab-button" data-tab="leaves-tab">Teacher Leave Request</button>
         </div>
 
         <!-- Attendance Tab -->
         <div id="attendance-tab" class="tab-content active">
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3>Mark Staff Attendance</h3>
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px;">
+                    <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+                        <h3 style="margin-bottom: 0;">Mark Staff Attendance</h3>
+                        <div class="search-box" style="flex: 1; max-width: 300px; position: relative;">
+                            <i class="fa fa-search"
+                                style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #888;"></i>
+                            <input type="text" id="staffSearch" placeholder="Search teacher..."
+                                style="width: 100%; padding: 8px 8px 8px 35px; border-radius: 6px; border: 1px solid #ddd;">
+                        </div>
+                    </div>
                     <input type="date" id="attendance-date"
                         style="padding: 8px; border-radius: 6px; border: 1px solid #ddd;">
                 </div>

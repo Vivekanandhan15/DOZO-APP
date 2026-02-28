@@ -49,6 +49,20 @@ if (form) {
       return;
     }
 
+    // New Validation
+    if (title.length < 3) {
+      showToast("Title must be at least 3 characters", 'error');
+      return;
+    }
+
+    const selectedDate = new Date(dueDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (selectedDate < today) {
+      showToast("Due date cannot be in the past", 'error');
+      return;
+    }
+
     try {
       const res = await fetch('/assignments/', {
         method: 'POST',

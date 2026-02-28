@@ -44,8 +44,11 @@ def get_dashboard_stats(db: Session = Depends(get_db)):
         Leaves.status == 'APPROVED'
     ).count()
     
-    # Pending leave requests (overall)
-    pending_leaves_count = db.query(Leaves).filter(Leaves.status.in_(['PENDING', 'PENDING_ADMIN'])).count()
+    # Pending leave requests (overall) - Filtered to Teacher/Staff for Admin Dashboard
+    pending_leaves_count = db.query(Leaves).filter(
+        Leaves.status.in_(['PENDING', 'PENDING_ADMIN']),
+        Leaves.student_id == None
+    ).count()
     
     # 3. Batch-wise data (limit 3)
     batches = db.query(Batches).all()
@@ -78,8 +81,11 @@ def get_dashboard_stats(db: Session = Depends(get_db)):
     # Limit to top 3 (or just first 3 for now)
     batch_data = batch_data[:3]
     
-    # 4. Recent Leave Requests (limit 3)
-    recent_leaves = db.query(Leaves).filter(Leaves.status.in_(['PENDING', 'PENDING_ADMIN']))\
+    # Recent Leave Requests (limit 3) - Filtered to Teacher/Staff for Admin Dashboard
+    recent_leaves = db.query(Leaves).filter(
+        Leaves.status.in_(['PENDING', 'PENDING_ADMIN']),
+        Leaves.student_id == None
+    )\
         .order_by(desc(Leaves.requested_at))\
         .limit(3).all()
         
@@ -148,13 +154,15 @@ def mark_attendance_bulk(
     teacher_id = user.user_id
     success_count = 0
     today = date.today()
+    from datetime import timedelta
+    week_start = today - timedelta(days=7)
     is_teacher = user.role.upper() == 'TEACHER'
     
     # Validation per item (or assume batch is same day)
     for item in data:
-        # Teacher Restriction: Date must be Today
-        if is_teacher and item.date != today:
-             raise HTTPException(status_code=400, detail="Teachers can only mark attendance for today.")
+        # Teacher Restriction: Date must be within the last 7 days
+        if is_teacher and item.date < week_start:
+             raise HTTPException(status_code=400, detail="Teachers can only mark attendance for the last 7 days.")
 
         # Check Upsert
         existing = db.query(Attendance).filter(
@@ -164,9 +172,9 @@ def mark_attendance_bulk(
         ).first()
         
         if existing:
-            # Teacher Restriction: Cannot Update
-            if is_teacher:
-                raise HTTPException(status_code=400, detail="Attendance already marked for today. Contact Admin to update.")
+            # Teacher Restriction: Can only update if within 7 days
+            if is_teacher and item.date < week_start:
+                raise HTTPException(status_code=400, detail="Cannot update attendance older than 7 days.")
             
             existing.status = item.status
             existing.marked_by = teacher_id
@@ -188,14 +196,24 @@ def mark_attendance_bulk(
 
 # Teacher updating same day attendance
 @router.put("/{attendance_id}", dependencies=[Depends(require_role(["ADMIN", "TEACHER"]))])
-def edit_attendance(attendance_id: int, status: str, db: Session = Depends(get_db)):
-    res = update_attendance(db, attendance_id, status)
-    if res is None:
-        raise HTTPException(
-            status_code=400,
-            detail="Cannot update past attendance or record not found"
-        )
-    return res
+def edit_attendance(attendance_id: int, status: str, 
+                    user=Depends(require_role(["ADMIN", "TEACHER"])),
+                    db: Session = Depends(get_db)):
+    from datetime import date, timedelta
+    
+    record = db.query(Attendance).filter(Attendance.attendance_id == attendance_id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail="Attendance record not found")
+        
+    if user.role.upper() == 'TEACHER':
+        limit_date = date.today() - timedelta(days=7)
+        if record.date < limit_date:
+            raise HTTPException(status_code=400, detail="Teachers cannot update attendance older than 7 days.")
+
+    record.status = status
+    record.marked_by = user.user_id
+    db.commit()
+    return record
 
 
 @router.get("/batch/{batch_id}/date/{attendance_date}")

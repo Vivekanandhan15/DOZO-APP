@@ -115,8 +115,24 @@ window.showToast = function (message, type = 'info') {
 if (signInForm) {
   signInForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('signinEmail').value;
+    const email = document.getElementById('signinEmail').value.trim();
     const password = document.getElementById('signinPassword').value;
+
+    if (!email || !password) {
+      showToast("Please enter email and password", 'error');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showToast("Please enter a valid email address", 'error');
+      return;
+    }
+
+    if (password.length < 6) {
+      showToast("Password must be at least 6 characters", 'error');
+      return;
+    }
 
     try {
       console.log("Attempting login for:", email);

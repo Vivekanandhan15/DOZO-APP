@@ -1,12 +1,12 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import date
 
 class AssignmentCreate(BaseModel):
-    batch_id: int
-    title: str
-    description: str
+    batch_id: int = Field(..., gt=0)
+    title: str = Field(..., min_length=3, max_length=100)
+    description: str = Field(..., max_length=1000)
     due_date: date
-    points: int
+    points: int = Field(100, ge=0)
 
 class AssignmentOut(BaseModel):
     assignment_id: int
