@@ -33,24 +33,34 @@ document.addEventListener("DOMContentLoaded", async () => {
 form.addEventListener("submit", async function (e) {
   e.preventDefault();
 
+  const token = localStorage.getItem('access_token');
+  if (!token) {
+    alert("Session expired. Please login again.");
+    window.location.href = "/";
+    return;
+  }
+
   const name = document.getElementById("studentName").value.trim();
   const email = document.getElementById("studentEmail").value.trim();
   const batchId = document.getElementById("studentBatch").value;
 
   if (!name || !email || !batchId) {
-    showToast("Please fill all required fields", 'error');
+    if (window.showToast) showToast("Please fill all required fields", 'error');
+    else alert("Please fill all required fields");
     return;
   }
 
   // New Validation
   if (name.length < 2) {
-    showToast("Name must be at least 2 characters", 'error');
+    if (window.showToast) showToast("Name must be at least 2 characters", 'error');
+    else alert("Name must be at least 2 characters");
     return;
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    showToast("Please enter a valid email address", 'error');
+    if (window.showToast) showToast("Please enter a valid email address", 'error');
+    else alert("Please enter a valid email address");
     return;
   }
 
@@ -113,6 +123,7 @@ form.addEventListener("submit", async function (e) {
 
   } catch (error) {
     console.error(error);
-    showToast(`Error: ${error.message}`, 'error');
+    if (window.showToast) showToast(`${error.message}`, 'error');
+    else alert(`${error.message}`);
   }
 });
