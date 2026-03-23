@@ -62,7 +62,7 @@ function renderLeaves(leaves) {
         const tr = document.createElement('tr');
         const date = new Date(leave.date).toLocaleDateString();
 
-        // Robust name and type identification
+    
         const reqName = leave.student?.user?.name || leave.teacher?.name || 'Unknown User';
         const reqType = leave.teacher ? 'Teacher' : 'Student';
         const displayLabel = `<div style="display:flex; flex-direction:column;">

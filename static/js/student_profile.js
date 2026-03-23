@@ -62,8 +62,8 @@ function populateProfile(data) {
   const addressInput = document.getElementById('address');
   if (addressInput) addressInput.value = data.user?.address || '';
 
-  const guardianInput = document.getElementById('guardian');
-  if (guardianInput) guardianInput.value = data.parent_contact || '';
+  // const guardianInput = document.getElementById('guardian');
+  // if (guardianInput) guardianInput.value = data.parent_contact || '';
 
   // Academic details
   const enrollDateStr = data.admission_date ? new Date(data.admission_date).toLocaleDateString() : 'N/A';
@@ -95,7 +95,7 @@ if (profileForm) {
     const phone = document.getElementById('phone').value.trim();
     const email = document.getElementById('email').value.trim();
     const address = document.getElementById('address').value.trim();
-    const guardian = document.getElementById('guardian').value.trim();
+    // const guardian = document.getElementById('guardian').value.trim();
 
     try {
       const response = await fetch('/students/me', {
@@ -109,7 +109,7 @@ if (profileForm) {
           phone: phone,
           email: email,
           address: address,
-          parent_contact: guardian
+          // parent_contact: guardian
         })
       });
 

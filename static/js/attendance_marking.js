@@ -152,12 +152,13 @@ function renderStudentList(enrollments, attendanceRecords = []) {
     const presentId = `status_${sId}_present`;
     const absentId = `status_${sId}_absent`;
 
-    // Teacher Flexibility: Can edit if date is within last 7 days
+  
     const dateInput = document.getElementById('attendance-date');
-    const selectedDate = new Date(dateInput.value);
+    const selectedDate = new Date(dateInput.value + 'T00:00:00'); 
     const today = new Date();
+
     today.setHours(0, 0, 0, 0);
-    const diffDays = (today - selectedDate) / (1000 * 60 * 60 * 24);
+    const diffDays = Math.round((today - selectedDate) / (1000 * 60 * 60 * 24));
 
     let isDisabled = false;
     if (role === 'TEACHER') {
@@ -216,10 +217,10 @@ if (form) {
     }
 
     // Determine which rows to mark
-    const selectedDate = new Date(date);
+    const selectedDate = new Date(date + 'T00:00:00'); // Normalize to local midnight
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const diffDays = (today - selectedDate) / (1000 * 60 * 60 * 24);
+    const diffDays = Math.round((today - selectedDate) / (1000 * 60 * 60 * 24));
 
     // Allow marking if it's Admin OR (Teacher and within 7 days)
     const canEdit = role === 'ADMIN' || (role === 'TEACHER' && diffDays >= 0 && diffDays <= 7);

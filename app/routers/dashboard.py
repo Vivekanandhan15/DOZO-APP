@@ -81,8 +81,7 @@ def get_dashboard_stats(db: Session = Depends(get_db), current_user: Users = Dep
 @router.get("/schedule", dependencies=[Depends(require_role(["ADMIN"]))])
 def get_todays_schedule(db: Session = Depends(get_db)):
     # Fetch active batches.
-    # Logic: Batches that started before/on today and haven't ended? 
-    # Or just all batches for simplicity since we deleted old ones.
+    # Logic: Batches that started before/on today and haven't ended 
     batches = db.query(Batches).all()
     
     schedule = []

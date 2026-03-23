@@ -63,7 +63,7 @@ app.include_router(student_dashboard.router)
 app.include_router(reports_router)
 
 
-@app.get("/health")
+@app.api_route("/health",methods=["GET","HEAD"])
 def health():
     return {"status": "ok"}
 

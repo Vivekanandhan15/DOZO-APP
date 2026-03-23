@@ -205,8 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
       signInForm.dispatchEvent(new Event('submit', { cancelable: true }));
     };
 
-    adminDemoBtn.addEventListener('click', () => handleDemoLogin('admin_demo@dozo.com', 'demo123'));
-    teacherDemoBtn.addEventListener('click', () => handleDemoLogin('teacher_demo@dozo.com', 'demo123'));
-    studentDemoBtn.addEventListener('click', () => handleDemoLogin('vivek123@dozo.com', 'student123'));
+    adminDemoBtn.addEventListener("click", () =>
+      handleDemoLogin("admin_demo@dozo.com", "admindemo123"),
+    );
+    teacherDemoBtn.addEventListener('click', () => handleDemoLogin('demoTeacher@dozo.com', 'teacherdemo1234'));
+    studentDemoBtn.addEventListener('click', () => handleDemoLogin('demostudent@dozo.com', 'student123'));
   }
 });

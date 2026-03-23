@@ -94,7 +94,7 @@ form.addEventListener("submit", async function (e) {
       body: JSON.stringify({
         user_id: user.user_id,
         roll_no: `DOZO${user.user_id}`,
-        parent_contact: "N/A",
+        parent_contact: "0000000000",
         admission_date: new Date().toISOString().split('T')[0]
       })
     });
